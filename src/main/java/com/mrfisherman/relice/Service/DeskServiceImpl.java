@@ -1,8 +1,8 @@
-package com.mrfisherman.relice.Services;
+package com.mrfisherman.relice.Service;
 
 import com.mrfisherman.relice.Entity.Furnitures.Desk;
-import com.mrfisherman.relice.Pojo.DeskDTO;
-import com.mrfisherman.relice.Repositories.DeskRepository;
+import com.mrfisherman.relice.Dto.DeskDTO;
+import com.mrfisherman.relice.Repository.DeskRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;

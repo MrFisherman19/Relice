@@ -1,7 +1,7 @@
-package com.mrfisherman.relice.Controllers;
+package com.mrfisherman.relice.Controller;
 
-import com.mrfisherman.relice.Pojo.DeskDTO;
-import com.mrfisherman.relice.Services.DeskService;
+import com.mrfisherman.relice.Dto.DeskDTO;
+import com.mrfisherman.relice.Service.DeskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

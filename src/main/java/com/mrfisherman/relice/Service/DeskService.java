@@ -1,7 +1,6 @@
-package com.mrfisherman.relice.Services;
+package com.mrfisherman.relice.Service;
 
-import com.mrfisherman.relice.Entity.Furnitures.Desk;
-import com.mrfisherman.relice.Pojo.DeskDTO;
+import com.mrfisherman.relice.Dto.DeskDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

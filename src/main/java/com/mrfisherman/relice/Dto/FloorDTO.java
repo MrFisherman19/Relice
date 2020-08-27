@@ -1,5 +1,5 @@
 
-package com.mrfisherman.relice.Pojo;
+package com.mrfisherman.relice.Dto;
 
 public class FloorDTO {
 

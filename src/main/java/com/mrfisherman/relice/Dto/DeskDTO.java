@@ -1,5 +1,5 @@
 
-package com.mrfisherman.relice.Pojo;
+package com.mrfisherman.relice.Dto;
 
 import java.util.Set;
 
@@ -10,6 +10,13 @@ public class DeskDTO {
     private String additionalNote;
     private LocalizationDTO localization;
     private Set<ElectronicEquipmentDTO> electronicEquipments;
+
+    public DeskDTO(String deskNumber, String additionalNote, LocalizationDTO localizationDTO, Set<ElectronicEquipmentDTO> electronicEquipmentDTOS) {
+        this.deskNumber = deskNumber;
+        this.additionalNote = additionalNote;
+        this.localization = localizationDTO;
+        this.electronicEquipments = Set.copyOf(electronicEquipmentDTOS);
+    }
 
     public Long getDeskId() {
         return deskId;

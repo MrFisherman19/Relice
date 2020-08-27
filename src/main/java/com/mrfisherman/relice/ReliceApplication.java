@@ -7,7 +7,7 @@ import com.mrfisherman.relice.Entity.Property.Address;
 import com.mrfisherman.relice.Entity.Property.Building;
 import com.mrfisherman.relice.Entity.Property.Floor;
 import com.mrfisherman.relice.Entity.Property.Localization;
-import com.mrfisherman.relice.Repositories.DeskRepository;
+import com.mrfisherman.relice.Repository.DeskRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

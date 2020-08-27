@@ -1,4 +1,4 @@
-package com.mrfisherman.relice.Repositories;
+package com.mrfisherman.relice.Repository;
 
 import com.mrfisherman.relice.Entity.Furnitures.Desk;
 import org.springframework.data.jpa.repository.JpaRepository;

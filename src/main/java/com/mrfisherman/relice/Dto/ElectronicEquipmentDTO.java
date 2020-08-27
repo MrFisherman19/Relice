@@ -1,6 +1,8 @@
 
-package com.mrfisherman.relice.Pojo;
+package com.mrfisherman.relice.Dto;
 
+
+import com.mrfisherman.relice.Entity.Electronic.ElectronicEquipmentType;
 
 public class ElectronicEquipmentDTO {
 
@@ -39,8 +41,8 @@ public class ElectronicEquipmentDTO {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(ElectronicEquipmentType type) {
+        this.type = type.name();
     }
 
     public String getAdditionalNote() {

@@ -18,6 +18,9 @@ public class Furniture {
     @Embedded
     private Localization localization;
 
+    private String locationState = FurnitureLocationState.RIGHT_PLACE.name();
+    private String conditionState = FurnitureConditionState.GOOD_CONDITION.name();
+
     public Long getFurnitureId() {
         return furnitureId;
     }
@@ -48,5 +51,21 @@ public class Furniture {
 
     public void setLocalization(Localization localization) {
         this.localization = localization;
+    }
+
+    public String getLocationState() {
+        return locationState;
+    }
+
+    public void setLocationState(FurnitureLocationState locationState) {
+        this.locationState = locationState.name();
+    }
+
+    public String getConditionState() {
+        return conditionState;
+    }
+
+    public void setConditionState(FurnitureConditionState conditionState) {
+        this.conditionState = conditionState.name();
     }
 }
