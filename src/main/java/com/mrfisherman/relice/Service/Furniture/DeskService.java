@@ -1,4 +1,4 @@
-package com.mrfisherman.relice.Service;
+package com.mrfisherman.relice.Service.Furniture;
 
 import com.mrfisherman.relice.Dto.DeskDTO;
 import org.springframework.stereotype.Service;
