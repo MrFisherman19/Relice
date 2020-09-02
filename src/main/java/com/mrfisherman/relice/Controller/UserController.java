@@ -1,15 +1,13 @@
 package com.mrfisherman.relice.Controller;
 
+import com.mrfisherman.relice.Dto.Wrapper.LoginWrapper;
+import com.mrfisherman.relice.Dto.Wrapper.RegisterWrapper;
 import com.mrfisherman.relice.Entity.User.User;
 import com.mrfisherman.relice.Entity.User.UserConfirmationToken;
 import com.mrfisherman.relice.Service.User.UserConfirmationTokenService;
 import com.mrfisherman.relice.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
@@ -24,31 +22,36 @@ public class UserController {
         this.userConfirmationTokenService = userConfirmationTokenService;
     }
 
-    @GetMapping("/sign-in")
-    public String signIn() {
-        return "sign-in";
+    @PostMapping(value = "/sign-in", consumes = "application/json")
+    public String signIn(@RequestBody LoginWrapper loginWrapper) {
+        userService.signInUser(loginWrapper.getUsername(), loginWrapper.getPassword());
+        return "blabla";
     }
 
-    @GetMapping("/sign-up")
-    public String signUp() {
-        return "sign-up";
+    @PostMapping(value = "/sign-up", consumes = "application/json")
+    public String signUp(@RequestBody RegisterWrapper registerWrapper) {
+        User newUser = new User();
+        newUser.setName(registerWrapper.getName());
+        newUser.setEmail(registerWrapper.getEmail());
+        newUser.setPassword(registerWrapper.getPassword());
+        userService.signUpUser(newUser);
+        return "redirect:/localhost:8080/signIn";
     }
 
-    @PostMapping("/sign-up")
-    public String signUp(User user) {
-        userService.singUpUser(user);
-        return "redirect:/sign-in";
+    @GetMapping("/user")
+    User getUser(@RequestParam("id") Long id) {
+        return userService.findById(id).orElseThrow(NullPointerException::new);
     }
 
-    @GetMapping("/getUser")
-    public User getUser(@RequestParam("id") String email) {
-        return userService.findByEmail(email).get();
+    @GetMapping("/userDetails")
+    User getUserDetails(@RequestParam("id") Long id) {
+        return userService.findById(id).orElseThrow(NullPointerException::new);
     }
 
     @GetMapping("/confirm")
     String confirmMail(@RequestParam("token") String token) {
-        Optional<UserConfirmationToken> optionalUserConfirmationToken = userConfirmationTokenService.findConfirmationTokenByToken(token);
-        optionalUserConfirmationToken.ifPresent(userService::confirmUser);
+        UserConfirmationToken optionalUserConfirmationToken = userConfirmationTokenService.findConfirmationTokenByToken(token);
+        userService.confirmUser(optionalUserConfirmationToken);
         return "/sign-in";
     }
 

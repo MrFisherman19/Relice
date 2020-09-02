@@ -1,9 +1,6 @@
 package com.mrfisherman.relice.Service.User;
 
 import com.mrfisherman.relice.Entity.User.UserConfirmationToken;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 public interface UserConfirmationTokenService {
 
@@ -11,5 +8,5 @@ public interface UserConfirmationTokenService {
 
     void deleteConfirmationToken(Long id);
 
-    Optional<UserConfirmationToken> findConfirmationTokenByToken(String token);
+    UserConfirmationToken findConfirmationTokenByToken(String token);
 }

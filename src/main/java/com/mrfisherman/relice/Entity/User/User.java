@@ -34,12 +34,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
     }
 
     @Override
@@ -108,5 +108,18 @@ public class User implements UserDetails {
 
     public void setLocked(boolean locked) {
         isLocked = locked;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                ", isEnabled=" + isEnabled +
+                ", isLocked=" + isLocked +
+                '}';
     }
 }

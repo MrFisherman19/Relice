@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
             return userRepository.findByEmail(email);
     }
@@ -47,8 +52,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void singUpUser(User user) {
+    public void signInUser(String username, String password) {
+
+    }
+
+    @Override
+    public void signUpUser(User user) {
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
+
         user.setPassword(encryptedPassword);
 
         final User createdUser = userRepository.save(user);
@@ -56,6 +67,8 @@ public class UserServiceImpl implements UserService {
         final UserConfirmationToken confirmationToken = new UserConfirmationToken(createdUser);
 
         userConfirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
     }
 
     @Override
@@ -76,7 +89,7 @@ public class UserServiceImpl implements UserService {
         simpleMailMessage.setSubject("Welcome to Relice! Please confirm your email address!");
         simpleMailMessage.setFrom("<MAIL>");
         simpleMailMessage.setText("Thank you for sing up to the Relice app! Please click the link below to activate" +
-                " your account: " + "http://localhost:8080/sing-up/confirm?token=" + token);
+                " your account: " + "http://localhost:8081/confirm?token=" + token);
         emailService.sendEmail(simpleMailMessage);
     }
 }
