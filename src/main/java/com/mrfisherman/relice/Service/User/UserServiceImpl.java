@@ -52,11 +52,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signInUser(String username, String password) {
-
-    }
-
-    @Override
     public void signUpUser(User user) {
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
 

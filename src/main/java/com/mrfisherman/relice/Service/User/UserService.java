@@ -19,6 +19,4 @@ public interface UserService extends UserDetailsService {
     void sendConfirmationEmail(String userEmail, String token);
 
     Optional<User> findById(Long id);
-
-    void signInUser(String username, String password);
 }

@@ -1,5 +1,5 @@
 package com.mrfisherman.relice.Entity.User;
 
-enum UserRole {
-    ADMIN, USER
+public enum UserRole {
+    ROLE_USER, ROLE_ADMIN
 }

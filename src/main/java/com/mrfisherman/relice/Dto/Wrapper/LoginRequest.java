@@ -1,15 +1,15 @@
 package com.mrfisherman.relice.Dto.Wrapper;
 
-public class LoginWrapper {
+public class LoginRequest {
 
     private String username;
     private String password;
 
-    public LoginWrapper() {
+    public LoginRequest() {
 
     }
 
-    public LoginWrapper(String username, String password) {
+    public LoginRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }

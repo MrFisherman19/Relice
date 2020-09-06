@@ -21,7 +21,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    private UserRole userRole = UserRole.USER;
+    private UserRole userRole = UserRole.ROLE_USER;
     private boolean isEnabled = false;
     private boolean isLocked = false;
 
@@ -29,6 +29,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
+        System.out.println(userRole.name());
         return Collections.singletonList(simpleGrantedAuthority);
     }
 

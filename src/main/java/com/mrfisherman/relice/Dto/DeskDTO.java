@@ -11,6 +11,10 @@ public class DeskDTO {
     private LocalizationDTO localization;
     private Set<ElectronicEquipmentDTO> electronicEquipments;
 
+    public DeskDTO() {
+
+    }
+
     public DeskDTO(String deskNumber, String additionalNote, LocalizationDTO localizationDTO, Set<ElectronicEquipmentDTO> electronicEquipmentDTOS) {
         this.deskNumber = deskNumber;
         this.additionalNote = additionalNote;
