@@ -3,6 +3,7 @@ package com.mrfisherman.relice.Entity.Electronic;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mrfisherman.relice.Entity.Furnitures.Desk;
+import com.mrfisherman.relice.Entity.PrefixEntity;
 import com.mrfisherman.relice.Entity.Property.Localization;
 import com.sun.istack.NotNull;
 
@@ -10,20 +11,14 @@ import javax.persistence.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ElectronicEquipment {
-
-    @Id
-    @GeneratedValue
-    private Long electronicId;
+public class ElectronicEquipment extends PrefixEntity {
 
     private String client;
-
-    private String prefix;
-
     private String externalId;
 
     @NotNull
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ElectronicEquipmentType type;
     private String additionalNote;
 
     @Embedded
@@ -36,24 +31,12 @@ public class ElectronicEquipment {
 
     public ElectronicEquipment() { }
 
-    public Long getElectronicId() {
-        return electronicId;
-    }
-
-    public void setElectronicId(Long electronicId) {
-        this.electronicId = electronicId;
-    }
-
     public String getClient() {
         return client;
     }
 
     public void setClient(String client) {
         this.client = client;
-    }
-
-    public String getPrefix() {
-        return prefix;
     }
 
     public String getExternalId() {
@@ -64,13 +47,13 @@ public class ElectronicEquipment {
         this.externalId = externId;
     }
 
-    public String getType() {
+    public ElectronicEquipmentType getType() {
         return type;
     }
 
     public void setType(ElectronicEquipmentType type) {
-        this.type = type.name();
-        this.prefix = type.getPrefix();
+        this.type = type;
+        super.setPrefix(type.getPrefix());
     }
 
     public String getAdditionalNote() {

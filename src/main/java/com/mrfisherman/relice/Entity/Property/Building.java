@@ -1,40 +1,31 @@
 package com.mrfisherman.relice.Entity.Property;
 
 import com.fasterxml.jackson.annotation.*;
+import com.mrfisherman.relice.Entity.BaseEntity;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Building {
-
-    @Id
-    @GeneratedValue
-    private Long buildingId;
+public class Building extends BaseEntity {
 
     @Embedded
     private Address address;
-
+    private String owner;
     private String nameOfBuilding;
-    private int numberOfFloors;
+
+    @Column(length = 1000)
+    private String imageUrl;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Floor.class)
-    private Set<Floor> floor;
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, targetEntity = Floor.class)
+    private Set<Floor> floors;
 
     public Building() {}
 
     public Building(String nameOfBuilding) {
         this.nameOfBuilding = nameOfBuilding;
-    }
-
-    public Long getBuildingId() {
-        return buildingId;
-    }
-
-    public void setBuildingId(Long buildingId) {
-        this.buildingId = buildingId;
     }
 
     public Address getAddress() {
@@ -54,19 +45,30 @@ public class Building {
     }
 
     public int getNumberOfFloors() {
-        return numberOfFloors;
+        return getFloors().size();
     }
 
-    public void setNumberOfFloors(int numberOfFloors) {
-        this.numberOfFloors = numberOfFloors;
+    public Set<Floor> getFloors() {
+        return floors;
     }
 
-    public Set<Floor> getFloor() {
-        return floor;
+    public void setFloors(Set<Floor> floor) {
+        this.floors = floor;
     }
 
-    public void setFloor(Set<Floor> floor) {
-        this.floor = floor;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 }

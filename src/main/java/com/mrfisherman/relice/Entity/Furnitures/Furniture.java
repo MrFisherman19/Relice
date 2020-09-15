@@ -1,41 +1,26 @@
 package com.mrfisherman.relice.Entity.Furnitures;
 
+import com.mrfisherman.relice.Entity.PrefixEntity;
 import com.mrfisherman.relice.Entity.Property.Localization;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
 @MappedSuperclass
-public class Furniture {
+public class Furniture extends PrefixEntity {
 
-    @Id
-    @GeneratedValue
-    private Long furnitureId;
-
-    @Transient
-    private String prefix;
     private String additionalNote;
 
     @Embedded
     private Localization localization;
 
-    private String locationState = FurnitureLocationState.RIGHT_PLACE.name();
-    private String conditionState = FurnitureConditionState.GOOD_CONDITION.name();
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private FurnitureLocationState locationState = FurnitureLocationState.RIGHT_PLACE;
 
-    public Long getFurnitureId() {
-        return furnitureId;
-    }
-
-    private void setFurnitureId(Long furnitureId) {
-        this.furnitureId = furnitureId;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    protected void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private FurnitureConditionState conditionState = FurnitureConditionState.GOOD_CONDITION;
 
     public String getAdditionalNote() {
         return additionalNote;
@@ -53,19 +38,19 @@ public class Furniture {
         this.localization = localization;
     }
 
-    public String getLocationState() {
+    public FurnitureLocationState getLocationState() {
         return locationState;
     }
 
     public void setLocationState(FurnitureLocationState locationState) {
-        this.locationState = locationState.name();
+        this.locationState = locationState;
     }
 
-    public String getConditionState() {
+    public FurnitureConditionState getConditionState() {
         return conditionState;
     }
 
     public void setConditionState(FurnitureConditionState conditionState) {
-        this.conditionState = conditionState.name();
+        this.conditionState = conditionState;
     }
 }

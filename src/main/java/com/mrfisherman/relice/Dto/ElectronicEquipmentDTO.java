@@ -6,19 +6,19 @@ import com.mrfisherman.relice.Entity.Electronic.ElectronicEquipmentType;
 
 public class ElectronicEquipmentDTO {
 
-    private Long electronicId;
+    private Long id;
     private String client;
     private String externalId;
     private String type;
     private String additionalNote;
     private LocalizationDTO localization;
 
-    public Long getElectronicId() {
-        return electronicId;
+    public Long getId() {
+        return id;
     }
 
-    public void setElectronicId(Long electronicId) {
-        this.electronicId = electronicId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getClient() {

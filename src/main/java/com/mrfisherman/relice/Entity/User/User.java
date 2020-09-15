@@ -1,22 +1,18 @@
 package com.mrfisherman.relice.Entity.User;
 
 
+import com.mrfisherman.relice.Entity.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-public class User implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
-    @Id
-    @GeneratedValue
-    private Long userId;
     private String name;
     private String email;
     private String password;
@@ -24,7 +20,6 @@ public class User implements UserDetails {
     private UserRole userRole = UserRole.ROLE_USER;
     private boolean isEnabled = false;
     private boolean isLocked = false;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,14 +56,6 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnabled;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long id) {
-        this.userId = id;
     }
 
     public String getName() {
@@ -114,7 +101,7 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + getId() +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

@@ -15,7 +15,7 @@ public final class Desk extends Furniture {
     private String deskNumber;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "desk", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = ElectronicEquipment.class)
+    @OneToMany(mappedBy = "desk", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = ElectronicEquipment.class)
     private Set<ElectronicEquipment> electronicEquipments;
 
     public Desk() {

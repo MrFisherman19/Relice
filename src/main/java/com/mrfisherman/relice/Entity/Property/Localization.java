@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Embeddable
 public class Localization {
 
-    @OneToOne(targetEntity = Floor.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Floor.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "FLOOR_ID")
     private Floor floor;
 

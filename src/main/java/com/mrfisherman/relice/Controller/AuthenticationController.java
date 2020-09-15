@@ -6,10 +6,10 @@ import com.mrfisherman.relice.Dto.Wrapper.LoginResponse;
 import com.mrfisherman.relice.Dto.Wrapper.RegisterRequest;
 import com.mrfisherman.relice.Entity.User.User;
 import com.mrfisherman.relice.Entity.User.UserConfirmationToken;
-import com.mrfisherman.relice.Exception.RegistrationFailedException;
 import com.mrfisherman.relice.Service.User.UserConfirmationTokenService;
 import com.mrfisherman.relice.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,19 +37,18 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/sign-up", consumes = "application/json")
-    public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) throws Exception {
 
         User newUser = new User();
         newUser.setName(registerRequest.getName());
+
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(registerRequest.getPassword());
 
         try {
             userService.signUpUser(newUser);
-        } catch (RegistrationFailedException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.badRequest().body("User with this username already exist");
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -64,9 +63,9 @@ public class AuthenticationController {
                     loginRequest.getPassword()));
 
         } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
+            throw new Exception("User is unverified yet or disabled.", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new Exception("Incorrect username or password.", e);
         }
 
         UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
@@ -76,10 +75,12 @@ public class AuthenticationController {
     }
 
     @GetMapping("/confirm")
-    String confirmMail(@RequestParam("token") String token) {
+    ResponseEntity<HttpHeaders> confirmMail(@RequestParam("token") String token) {
         UserConfirmationToken optionalUserConfirmationToken = userConfirmationTokenService.findConfirmationTokenByToken(token);
         userService.confirmUser(optionalUserConfirmationToken);
-        return "/sign-in";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Location","http://localhost:8080/sign-in");
+        return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
     }
 
 }

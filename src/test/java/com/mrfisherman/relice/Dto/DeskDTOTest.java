@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.mrfisherman.relice.Entity.Electronic.ElectronicEquipmentType;
+import com.mrfisherman.relice.Entity.Furnitures.FurnitureConditionState;
+import com.mrfisherman.relice.Entity.Furnitures.FurnitureLocationState;
 import com.mrfisherman.relice.ReliceApplication;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,12 +37,12 @@ public class DeskDTOTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JacksonTester.initFields(this, objectMapper);
 
-        BuildingDTO buildingDTO = new BuildingDTO();
-        buildingDTO.setNameOfBuilding("Building D");
+        BuildingMinimalDTO buildingMinimalDTO = new BuildingMinimalDTO();
+        buildingMinimalDTO.setBuildingName("Building D");
 
         FloorDTO floorDTO = new FloorDTO();
         floorDTO.setFloorNumber(4);
-        floorDTO.setBuilding(buildingDTO);
+        floorDTO.setBuilding(buildingMinimalDTO);
 
         localization = new LocalizationDTO();
         localization.setFloor(floorDTO);
@@ -57,7 +59,7 @@ public class DeskDTOTest {
         electronicEquipments = new HashSet<>();
         electronicEquipments.add(electronicEquipment);
 
-        deskDTO = new DeskDTO(DESK_NUMBER, ADDITIONAL_NOTE, localization, electronicEquipments);
+        deskDTO = new DeskDTO(DESK_NUMBER, ADDITIONAL_NOTE, localization, FurnitureConditionState.GOOD_CONDITION.name(), FurnitureLocationState.RIGHT_PLACE.name(), electronicEquipments);
     }
 
     private <T> T asParsedJson(Object object) throws JsonProcessingException {

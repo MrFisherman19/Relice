@@ -1,15 +1,14 @@
 package com.mrfisherman.relice.Entity.User;
 
+import com.mrfisherman.relice.Entity.BaseEntity;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-public class UserConfirmationToken {
+public class UserConfirmationToken extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    Long confirmationTokenId;
     private String confirmationToken;
     private LocalDate createDate;
 
@@ -23,14 +22,6 @@ public class UserConfirmationToken {
         this.user = user;
         this.createDate = LocalDate.now();
         this.confirmationToken = UUID.randomUUID().toString();
-    }
-
-    public Long getConfirmationTokenId() {
-        return confirmationTokenId;
-    }
-
-    public void setConfirmationTokenId(Long confirmationTokenId) {
-        this.confirmationTokenId = confirmationTokenId;
     }
 
     public String getConfirmationToken() {

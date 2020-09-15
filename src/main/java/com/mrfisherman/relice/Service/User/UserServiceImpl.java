@@ -7,6 +7,7 @@ import com.mrfisherman.relice.Repository.UserRepository;
 import com.mrfisherman.relice.Service.Email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -52,18 +53,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signUpUser(User user) {
-        final String encryptedPassword = passwordEncoder.encode(user.getPassword());
+    public void signUpUser(User user) throws BadCredentialsException {
 
-        user.setPassword(encryptedPassword);
+        if (findByEmail(user.getEmail()).isPresent()) {
+            throw new BadCredentialsException("USER ALREADY EXIST");
+        } else {
 
-        final User createdUser = userRepository.save(user);
+            final String encryptedPassword = passwordEncoder.encode(user.getPassword());
 
-        final UserConfirmationToken confirmationToken = new UserConfirmationToken(createdUser);
+            user.setPassword(encryptedPassword);
 
-        userConfirmationTokenService.saveConfirmationToken(confirmationToken);
+            final User createdUser = userRepository.save(user);
 
-        sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+            final UserConfirmationToken confirmationToken = new UserConfirmationToken(createdUser);
+
+            userConfirmationTokenService.saveConfirmationToken(confirmationToken);
+
+            sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+        }
     }
 
     @Override
@@ -74,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        userConfirmationTokenService.deleteConfirmationToken(userConfirmationToken.getConfirmationTokenId());
+        userConfirmationTokenService.deleteConfirmationToken(userConfirmationToken.getId());
     }
 
     @Override

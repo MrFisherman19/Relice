@@ -2,6 +2,7 @@ package com.mrfisherman.relice.Controller;
 
 import com.mrfisherman.relice.Dto.DeskDTO;
 import com.mrfisherman.relice.Service.Furniture.DeskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ public class DeskController {
 
     private final DeskService deskService;
 
+    @Autowired
     public DeskController(DeskService deskService) {
         this.deskService = deskService;
     }
@@ -39,8 +41,8 @@ public class DeskController {
     }
 
     @PutMapping("/updateDesk")
-    public ResponseEntity<?> updateDesk(@RequestParam Long id, @RequestBody DeskDTO updatedDesk) {
-        DeskDTO desk = deskService.getOneById(id);
+    public ResponseEntity<?> updateDesk(@RequestBody DeskDTO updatedDesk) {
+        DeskDTO desk = deskService.findDeskById(updatedDesk.getId());
         desk.setLocalization(updatedDesk.getLocalization());
         desk.setElectronicEquipments(updatedDesk.getElectronicEquipments());
         desk.setAdditionalNote(updatedDesk.getAdditionalNote());

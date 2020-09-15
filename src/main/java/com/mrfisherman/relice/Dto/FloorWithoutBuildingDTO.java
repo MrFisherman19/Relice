@@ -1,11 +1,9 @@
-
 package com.mrfisherman.relice.Dto;
 
-public class FloorDTO {
+public class FloorWithoutBuildingDTO {
 
     private Long id;
     private int floorNumber;
-    private BuildingMinimalDTO building;
 
     public Long getId() {
         return id;
@@ -21,13 +19,5 @@ public class FloorDTO {
 
     public void setFloorNumber(int floorNumber) {
         this.floorNumber = floorNumber;
-    }
-
-    public BuildingMinimalDTO getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(BuildingMinimalDTO building) {
-        this.building = building;
     }
 }
