@@ -17,8 +17,8 @@ public interface DeskRepository extends JpaRepository<Desk, Long> {
             "JOIN FETCH d.electronicEquipments l " +
             "JOIN FETCH l.localization f " +
             "JOIN FETCH f.floor b " +
-            "JOIN FETCH b.building")
-    Set<Desk> findAllWithoutNPlusOne();
+            "JOIN FETCH b.building ORDER BY d.id DESC")
+    List<Desk> findAllWithoutNPlusOne();
 
     Desk findByDeskNumber(String descNumber);
 

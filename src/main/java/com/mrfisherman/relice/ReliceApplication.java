@@ -47,28 +47,42 @@ public class ReliceApplication {
 
         @Override
         public void run(String... args) {
-                Address address = new Address();
-                address.setCity("Kraków");
-                address.setCountry("Poland");
-                address.setNumberOnStreet("7i");
-                address.setStreetName("Puszkarska");
-                address.setZipCode("30-644");
+            FurnitureConditionState[] furnitureConditionStates = {
+                    FurnitureConditionState.BROKEN,
+                    FurnitureConditionState.GOOD_CONDITION,
+                    FurnitureConditionState.TO_BE_FIXED,
+                    FurnitureConditionState.TO_BE_THROWN_AWAY};
 
-                Building building = new Building();
-                building.setAddress(address);
-                building.setOwner("Bonarka offices");
-                building.setImageUrl("https://buma.pl/wp-content/uploads/2018/03/dot-office-f-sg-min-min.jpg");
-                building.setNameOfBuilding("Building D");
+            FurnitureLocationState[] furnitureLocationStates = {
+                    FurnitureLocationState.RIGHT_PLACE,
+                    FurnitureLocationState.TO_RELOCATION,
+                    FurnitureLocationState.TEMPORARY_PLACE
+            };
 
-                buildingRepository.save(building);
+            String[] additionalNotes = {"Nice desk", "Not nice desk", "Corner desk", "Oh wow!"};
 
-                for (int i = 1; i < 7; i++) {
-                    Floor floor = new Floor();
-                    floor.setFloorNumber(i);
-                    floor.setBuilding(building);
+            Address address = new Address();
+            address.setCity("Kraków");
+            address.setCountry("Poland");
+            address.setNumberOnStreet("7i");
+            address.setStreetName("Puszkarska");
+            address.setZipCode("30-644");
 
-                    floorRepository.save(floor);
+            Building building = new Building();
+            building.setAddress(address);
+            building.setOwner("Bonarka offices");
+            building.setImageUrl("https://buma.pl/wp-content/uploads/2018/03/dot-office-f-sg-min-min.jpg");
+            building.setNameOfBuilding("Building D");
 
+            buildingRepository.save(building);
+
+            for (int i = 1; i < 7; i++) {
+                Floor floor = new Floor();
+                floor.setFloorNumber(i);
+                floor.setBuilding(building);
+
+                floorRepository.save(floor);
+                for (int j = 1; j < 200; j++) {
                     Desk desk = new Desk();
 
                     ElectronicEquipment electronicEquipment = new ElectronicEquipment();
@@ -85,20 +99,19 @@ public class ReliceApplication {
                     electronicEquipment2.setExternalId("WS-125125");
                     electronicEquipment2.setType(ElectronicEquipmentType.PC);
                     electronicEquipment2.setLocalization(new Localization(floor, 2, 3));
-                    electronicEquipment2.setDesk(desk);
+
 
                     desk.setLocalization(new Localization(floor, 2, 3));
-                    desk.setDeskNumber(i + "-" + (int) Math.pow(i,4));
-                    desk.setConditionState(FurnitureConditionState.BROKEN);
-                    desk.setLocationState(FurnitureLocationState.TO_RELOCATION);
-
-                    desk.setAdditionalNote("Nice desk");
-
+                    desk.setDeskNumber(i + "-" + j);
+                    desk.setConditionState(furnitureConditionStates[(int)(Math.random()*furnitureConditionStates.length)]);
+                    desk.setLocationState(furnitureLocationStates[(int)(Math.random()*furnitureLocationStates.length)]);
+                    desk.setAdditionalNote(additionalNotes[(int)(Math.random()*additionalNotes.length)]);
                     deskRepository.save(desk);
 
                     electronicEquipmentRepository.save(electronicEquipment);
                     electronicEquipmentRepository.save(electronicEquipment2);
                 }
+            }
             System.out.println(deskRepository.findAll());
             System.out.println(deskRepository.findAllWithoutNPlusOne());
 

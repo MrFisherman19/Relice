@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/furniture")
@@ -20,7 +20,7 @@ public class DeskController {
     }
 
     @GetMapping("/getAllDesks")
-    public Set<DeskDTO> getAllDesks() {
+    public List<DeskDTO> getAllDesks() {
         return deskService.findAllDesks();
     }
 

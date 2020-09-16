@@ -1,6 +1,5 @@
 package com.mrfisherman.relice.Service.Barcode;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 public interface BarcodeService {

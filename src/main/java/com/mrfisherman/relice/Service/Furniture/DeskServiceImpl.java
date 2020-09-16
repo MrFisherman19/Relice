@@ -3,12 +3,11 @@ package com.mrfisherman.relice.Service.Furniture;
 import com.mrfisherman.relice.Entity.Furnitures.Desk;
 import com.mrfisherman.relice.Dto.DeskDTO;
 import com.mrfisherman.relice.Repository.DeskRepository;
-import com.mrfisherman.relice.Service.Furniture.DeskService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class DeskServiceImpl implements DeskService {
@@ -22,9 +21,9 @@ public class DeskServiceImpl implements DeskService {
     }
 
     @Override
-    public Set<DeskDTO> findAllDesks() {
-        Set<Desk> desks = deskRepository.findAllWithoutNPlusOne();
-        return modelMapper.map(desks, new TypeToken<Set<DeskDTO>>() {}.getType());
+    public List<DeskDTO> findAllDesks() {
+        List<Desk> desks = deskRepository.findAllWithoutNPlusOne();
+        return modelMapper.map(desks, new TypeToken<List<DeskDTO>>() {}.getType());
     }
 
     @Override

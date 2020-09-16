@@ -3,7 +3,7 @@ package com.mrfisherman.relice.Service.Furniture;
 import com.mrfisherman.relice.Dto.DeskDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public interface DeskService {
@@ -18,6 +18,6 @@ public interface DeskService {
 
     DeskDTO findDeskByDeskNumber(String deskNumber);
 
-    Set<DeskDTO> findAllDesks();
+    List<DeskDTO> findAllDesks();
 
 }

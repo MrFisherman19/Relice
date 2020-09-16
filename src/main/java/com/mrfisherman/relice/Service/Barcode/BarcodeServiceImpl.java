@@ -16,17 +16,21 @@ import java.util.stream.Stream;
 @Service
 public class BarcodeServiceImpl implements BarcodeService {
 
-    private final int BARCODE_RESOLUTION = 512;
+    private static final int BARCODE_RESOLUTION = 512;
+    private static final int BARCODE_HEIGHT = 7;
+    private static final int BARCODE_FONT_SIZE = 2;
+    private static final String FORMAT_NAME = "jpg";
 
     @Override
     public byte[] generateBarcodeCode128ByteArray(String barcodeText) {
         Code128Bean barcodeGenerator = new Code128Bean();
-        barcodeGenerator.setFontSize(5);
+        barcodeGenerator.setBarHeight(BARCODE_HEIGHT);
+        barcodeGenerator.setFontSize(BARCODE_FONT_SIZE);
         BitmapCanvasProvider canvas = new BitmapCanvasProvider(BARCODE_RESOLUTION, BufferedImage.TYPE_BYTE_BINARY, true, 0);
         barcodeGenerator.generateBarcode(canvas, barcodeText);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            ImageIO.write(canvas.getBufferedImage(), "jpg", byteArrayOutputStream);
+            ImageIO.write(canvas.getBufferedImage(), FORMAT_NAME, byteArrayOutputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }

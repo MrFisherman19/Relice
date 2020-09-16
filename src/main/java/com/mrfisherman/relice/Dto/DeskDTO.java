@@ -70,7 +70,7 @@ public class DeskDTO {
         this.electronicEquipments = electronicEquipments;
     }
     public String getFurnitureConditionState() {
-        return furnitureConditionState;
+        return furnitureConditionState.toLowerCase().replaceAll("_"," ");
     }
 
     public void setFurnitureConditionState(FurnitureConditionState furnitureConditionState) {
@@ -78,7 +78,7 @@ public class DeskDTO {
     }
 
     public String getFurnitureLocationState() {
-        return furnitureLocationState;
+        return furnitureLocationState.toLowerCase().replaceAll("_"," ");
     }
 
     public void setFurnitureLocationState(FurnitureLocationState furnitureLocationState) {
