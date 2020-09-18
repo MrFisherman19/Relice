@@ -1,10 +1,7 @@
 package com.mrfisherman.relice.Service.Office;
 
-import com.mrfisherman.relice.Dto.BuildingDTO;
-import com.mrfisherman.relice.Dto.FloorDTO;
-import com.mrfisherman.relice.Entity.Property.Building;
-import com.mrfisherman.relice.Entity.Property.Floor;
-import com.mrfisherman.relice.Repository.BuildingRepository;
+import com.mrfisherman.relice.Dto.FloorDto;
+import com.mrfisherman.relice.Entity.Building.Floor;
 import com.mrfisherman.relice.Repository.FloorRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -12,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-
-import java.util.Set;
 
 @Service
 public class FloorServiceImpl implements FloorService {
@@ -27,7 +22,7 @@ public class FloorServiceImpl implements FloorService {
     }
 
     @Override
-    public void saveFloor(FloorDTO floor) {
+    public void saveFloor(FloorDto floor) {
         floorRepository.save(modelMapper.map(floor, Floor.class));
     }
 
@@ -37,24 +32,24 @@ public class FloorServiceImpl implements FloorService {
     }
 
     @Override
-    public FloorDTO findFloorById(Long id) {
-        return modelMapper.map(floorRepository.findById(id).orElseThrow(EntityNotFoundException::new), FloorDTO.class);
+    public FloorDto findFloorById(Long id) {
+        return modelMapper.map(floorRepository.findById(id).orElseThrow(EntityNotFoundException::new), FloorDto.class);
     }
 
     @Override
-    public FloorDTO getOneById(Long id) {
-        return modelMapper.map(floorRepository.getOne(id),FloorDTO.class);
+    public FloorDto getOneById(Long id) {
+        return modelMapper.map(floorRepository.getOne(id), FloorDto.class);
     }
 
     @Override
-    public List<FloorDTO> findAllFloorsByBuildingId(Long buildingId) {
+    public List<FloorDto> findAllFloorsByBuildingId(Long buildingId) {
         List<Floor> floors = floorRepository.findAllByBuildingId(buildingId);
-        return modelMapper.map(floors, new TypeToken<List<FloorDTO>>() {}.getType());
+        return modelMapper.map(floors, new TypeToken<List<FloorDto>>() {}.getType());
     }
 
     @Override
-    public List<FloorDTO> findAllFloors() {
+    public List<FloorDto> findAllFloors() {
         List<Floor> floors = floorRepository.findAllOrderByBuildingAndFloorNumber();
-        return modelMapper.map(floors, new TypeToken<List<FloorDTO>>() {}.getType());
+        return modelMapper.map(floors, new TypeToken<List<FloorDto>>() {}.getType());
     }
 }

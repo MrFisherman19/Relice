@@ -1,11 +1,8 @@
 package com.mrfisherman.relice.Controller;
 
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.xmp.impl.Base64;
 import com.mrfisherman.relice.Dto.Wrapper.BarcodeTextWrapper;
-import com.mrfisherman.relice.Entity.PrefixEntity;
 import com.mrfisherman.relice.Service.Barcode.BarcodeService;
 import com.mrfisherman.relice.Service.Document.PdfService;
 
@@ -15,9 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/barcode")

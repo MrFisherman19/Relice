@@ -1,5 +1,6 @@
 package com.mrfisherman.relice.Entity.Property;
 
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,10 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Address {
+public class Dimensions {
 
-    private String streetName;
-    private String numberOnStreet;
-    private String zipCode;
-    private String city;
-    private String country;
+    private Double width;
+    private Double height;
+    private Double depth;
 
 }

@@ -1,6 +1,6 @@
 package com.mrfisherman.relice.Repository;
 
-import com.mrfisherman.relice.Entity.Property.Building;
+import com.mrfisherman.relice.Entity.Building.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,5 +15,5 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
             "JOIN FETCH b.floors f")
     Set<Building> findAllWithoutNPlusOne();
 
-    Optional<Building> findByNameOfBuilding(String buildingName);
+    Optional<Building> findByName(String name);
 }

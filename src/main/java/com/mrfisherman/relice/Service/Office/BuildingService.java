@@ -1,6 +1,6 @@
 package com.mrfisherman.relice.Service.Office;
 
-import com.mrfisherman.relice.Dto.BuildingDTO;
+import com.mrfisherman.relice.Dto.BuildingDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -8,16 +8,16 @@ import java.util.Set;
 @Service
 public interface BuildingService {
 
-    void saveBuilding(BuildingDTO buildingMinimalDTO);
+    void saveBuilding(BuildingDto buildingMinimalDTO);
 
     void deleteBuilding(Long id);
 
-    BuildingDTO findBuildingById(Long id);
+    BuildingDto findBuildingById(Long id);
 
-    BuildingDTO getOneById(Long id);
+    BuildingDto getOneById(Long id);
 
-    BuildingDTO findBuildingByNameOfBuilding(String buildingName);
+    BuildingDto findBuildingByName(String name);
 
-    Set<BuildingDTO> findAllBuildings();
+    Set<BuildingDto> findAllBuildings();
 
 }

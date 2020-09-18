@@ -1,20 +1,15 @@
 package com.mrfisherman.relice.Dto.Wrapper;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class BarcodeTextWrapper {
 
     private List<String> barcodeTexts;
-
-    public BarcodeTextWrapper() {
-
-    }
-
-    public List<String> getBarcodeTexts() {
-        return barcodeTexts;
-    }
-
-    public void setBarcodeTexts(List<String> barcodeTexts) {
-        this.barcodeTexts = barcodeTexts;
-    }
 }

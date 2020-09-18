@@ -2,6 +2,7 @@ package com.mrfisherman.relice.Entity.User;
 
 
 import com.mrfisherman.relice.Entity.BaseEntity;
+import com.mrfisherman.relice.Entity.NamedEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,20 +12,20 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-public class User extends BaseEntity implements UserDetails {
+public class User extends NamedEntity implements UserDetails {
 
-    private String name;
     private String email;
     private String password;
 
     private UserRole userRole = UserRole.ROLE_USER;
     private boolean isEnabled = false;
-    private boolean isLocked = false;
+    private boolean isNonLocked = true;
+    private boolean isNonExpired = true;
+    private boolean isCredentialsNonExpired = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
-        System.out.println(userRole.name());
         return Collections.singletonList(simpleGrantedAuthority);
     }
 
@@ -40,30 +41,22 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.isNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !isLocked;
+        return this.isNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
         return isEnabled;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -90,24 +83,28 @@ public class User extends BaseEntity implements UserDetails {
         isEnabled = enabled;
     }
 
-    public boolean isLocked() {
-        return isLocked;
+    public void setNonLocked(boolean nonLocked) {
+        isNonLocked = nonLocked;
     }
 
-    public void setLocked(boolean locked) {
-        isLocked = locked;
+    public void setNonExpired(boolean nonExpired) {
+        isNonExpired = nonExpired;
+    }
+
+    public void setCredentialsNotExpired(boolean credentialsNotExpired) {
+        isCredentialsNonExpired = credentialsNotExpired;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + getId() +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", userRole=" + userRole +
                 ", isEnabled=" + isEnabled +
-                ", isLocked=" + isLocked +
+                ", isNonLocked=" + isNonLocked +
+                ", isNonExpired=" + isNonExpired +
+                ", isCredentialsNonExpired=" + isCredentialsNonExpired +
                 '}';
     }
 }

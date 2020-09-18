@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final UserConfirmationTokenService userConfirmationTokenService;
 
     @Autowired
-    public UserController(UserService userService, UserConfirmationTokenService userConfirmationTokenService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userConfirmationTokenService = userConfirmationTokenService;
     }
 
     @GetMapping("/userDetails")

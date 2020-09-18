@@ -1,13 +1,12 @@
 package com.mrfisherman.relice;
 
-import com.mrfisherman.relice.Entity.Electronic.ElectronicEquipment;
-import com.mrfisherman.relice.Entity.Electronic.ElectronicEquipmentType;
-import com.mrfisherman.relice.Entity.Furnitures.Desk;
-import com.mrfisherman.relice.Entity.Furnitures.FurnitureConditionState;
-import com.mrfisherman.relice.Entity.Furnitures.FurnitureLocationState;
+import com.mrfisherman.relice.Entity.Asset.AssetConditionState;
+import com.mrfisherman.relice.Entity.Asset.AssetEntity;
+import com.mrfisherman.relice.Entity.Asset.AssetLocationState;
+import com.mrfisherman.relice.Entity.Asset.AssetType;
 import com.mrfisherman.relice.Entity.Property.Address;
-import com.mrfisherman.relice.Entity.Property.Building;
-import com.mrfisherman.relice.Entity.Property.Floor;
+import com.mrfisherman.relice.Entity.Building.Building;
+import com.mrfisherman.relice.Entity.Building.Floor;
 import com.mrfisherman.relice.Entity.Property.Localization;
 import com.mrfisherman.relice.Entity.User.User;
 import com.mrfisherman.relice.Entity.User.UserRole;
@@ -16,9 +15,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @SpringBootApplication
 public class ReliceApplication {
@@ -30,35 +26,24 @@ public class ReliceApplication {
     @Component
     static class addTestDataToDatabase implements CommandLineRunner {
 
-        final DeskRepository deskRepository;
+        final AssetRepository assetRepository;
         final UserRepository userRepository;
         final BuildingRepository buildingRepository;
         final FloorRepository floorRepository;
-        final ElectronicEquipmentRepository electronicEquipmentRepository;
 
-        public addTestDataToDatabase(DeskRepository deskRepository, UserRepository userRepository, BuildingRepository buildingRepository,
-                                     FloorRepository floorRepository, ElectronicEquipmentRepository electronicEquipmentRepository) {
-            this.deskRepository = deskRepository;
+        public addTestDataToDatabase(AssetRepository assetRepository, UserRepository userRepository,
+                                     BuildingRepository buildingRepository, FloorRepository floorRepository) {
+            this.assetRepository = assetRepository;
             this.userRepository = userRepository;
             this.buildingRepository = buildingRepository;
             this.floorRepository = floorRepository;
-            this.electronicEquipmentRepository = electronicEquipmentRepository;
         }
 
         @Override
         public void run(String... args) {
-            FurnitureConditionState[] furnitureConditionStates = {
-                    FurnitureConditionState.BROKEN,
-                    FurnitureConditionState.GOOD_CONDITION,
-                    FurnitureConditionState.TO_BE_FIXED,
-                    FurnitureConditionState.TO_BE_THROWN_AWAY};
-
-            FurnitureLocationState[] furnitureLocationStates = {
-                    FurnitureLocationState.RIGHT_PLACE,
-                    FurnitureLocationState.TO_RELOCATION,
-                    FurnitureLocationState.TEMPORARY_PLACE
-            };
-
+            AssetConditionState[] furnitureConditionStates = AssetConditionState.values();
+            AssetLocationState[] furnitureLocationStates = AssetLocationState.values();
+            AssetType[] assetTypes = AssetType.values();
             String[] additionalNotes = {"Nice desk", "Not nice desk", "Corner desk", "Oh wow!"};
 
             Address address = new Address();
@@ -72,48 +57,27 @@ public class ReliceApplication {
             building.setAddress(address);
             building.setOwner("Bonarka offices");
             building.setImageUrl("https://buma.pl/wp-content/uploads/2018/03/dot-office-f-sg-min-min.jpg");
-            building.setNameOfBuilding("Building D");
+            building.setName("Building D");
 
             buildingRepository.save(building);
 
             for (int i = 1; i < 7; i++) {
                 Floor floor = new Floor();
-                floor.setFloorNumber(i);
+                floor.setName("Floor" + i);
                 floor.setBuilding(building);
 
                 floorRepository.save(floor);
                 for (int j = 1; j < 200; j++) {
-                    Desk desk = new Desk();
-
-                    ElectronicEquipment electronicEquipment = new ElectronicEquipment();
-                    electronicEquipment.setClient("Lufthansa");
-                    electronicEquipment.setAdditionalNote("Nice laptop");
-                    electronicEquipment.setExternalId("WS-1231" + i);
-                    electronicEquipment.setType(ElectronicEquipmentType.LAPTOP);
-                    electronicEquipment.setLocalization(new Localization(floor, 2, 3));
-                    electronicEquipment.setDesk(desk);
-
-                    ElectronicEquipment electronicEquipment2 = new ElectronicEquipment();
-                    electronicEquipment2.setClient("LSG");
-                    electronicEquipment2.setAdditionalNote("Not good PC");
-                    electronicEquipment2.setExternalId("WS-125125");
-                    electronicEquipment2.setType(ElectronicEquipmentType.PC);
-                    electronicEquipment2.setLocalization(new Localization(floor, 2, 3));
-
-
-                    desk.setLocalization(new Localization(floor, 2, 3));
-                    desk.setDeskNumber(i + "-" + j);
-                    desk.setConditionState(furnitureConditionStates[(int)(Math.random()*furnitureConditionStates.length)]);
-                    desk.setLocationState(furnitureLocationStates[(int)(Math.random()*furnitureLocationStates.length)]);
-                    desk.setAdditionalNote(additionalNotes[(int)(Math.random()*additionalNotes.length)]);
-                    deskRepository.save(desk);
-
-                    electronicEquipmentRepository.save(electronicEquipment);
-                    electronicEquipmentRepository.save(electronicEquipment2);
+                    AssetEntity assetEntity = new AssetEntity();
+                    assetEntity.setPrefix("DES");
+                    assetEntity.setAssetType(assetTypes[(int)(Math.random() * assetTypes.length)]);
+                    assetEntity.setLocalization(new Localization(floor, 2, 3));
+                    assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
+                    assetEntity.setAssetLocationState(furnitureLocationStates[(int)(Math.random()*furnitureLocationStates.length)]);
+                    assetEntity.setAdditionalNote(additionalNotes[(int)(Math.random()*additionalNotes.length)]);
+                    assetRepository.save(assetEntity);
                 }
             }
-            System.out.println(deskRepository.findAll());
-            System.out.println(deskRepository.findAllWithoutNPlusOne());
 
             User user = new User();
             user.setId(1L);
@@ -122,7 +86,7 @@ public class ReliceApplication {
             user.setName("Bartosz");
             user.setPassword("$2y$12$etpCMI2qXcNpq.ux7VYmnuxxa7buKiu2BNRdVV5hZzia9SQ265UWe");
             user.setEnabled(true);
-            user.setLocked(false);
+            user.setNonLocked(true);
 
             userRepository.save(user);
         }

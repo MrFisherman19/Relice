@@ -3185,7 +3185,7 @@ The database has been closed [90098-200]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:205)
 	at com.sun.proxy.$Proxy81.findAllWithoutNPlusOne(Unknown Source)
-	at com.mrfisherman.relice.Service.Furniture.DeskServiceImpl.findAllDesks(DeskServiceImpl.java:26)
+	at com.mrfisherman.relice.Service.Asset.DeskServiceImpl.findAllDesks(DeskServiceImpl.java:26)
 	at com.mrfisherman.relice.Controller.DeskController.getAllDesks(DeskController.java:22)
 	at jdk.internal.reflect.GeneratedMethodAccessor130.invoke(Unknown Source)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

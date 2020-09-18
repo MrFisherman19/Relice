@@ -1,7 +1,7 @@
 package com.mrfisherman.relice.Controller;
 
-import com.mrfisherman.relice.Dto.BuildingDTO;
-import com.mrfisherman.relice.Dto.FloorDTO;
+import com.mrfisherman.relice.Dto.BuildingDto;
+import com.mrfisherman.relice.Dto.FloorDto;
 import com.mrfisherman.relice.Service.Office.BuildingService;
 import com.mrfisherman.relice.Service.Office.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +25,26 @@ public class OfficeController {
     }
 
     @GetMapping("/getAllBuildings")
-    public Set<BuildingDTO> getAllBuildings() {
+    public Set<BuildingDto> getAllBuildings() {
         return buildingService.findAllBuildings();
     }
 
     @GetMapping(value = "/getBuilding", params = "id")
-    public BuildingDTO getBuilding(@RequestParam Long id) {
+    public BuildingDto getBuilding(@RequestParam Long id) {
         return buildingService.findBuildingById(id);
     }
 
     @PostMapping("/createBuilding")
-    public ResponseEntity<?> createBuilding(@RequestBody BuildingDTO building) {
+    public ResponseEntity<?> createBuilding(@RequestBody BuildingDto building) {
         buildingService.saveBuilding(building);
         return ResponseEntity.ok("Building successfully created!");
     }
 
     @PutMapping("/updateBuilding")
-    public ResponseEntity<?> updateBuilding(@RequestBody BuildingDTO building) {
+    public ResponseEntity<?> updateBuilding(@RequestBody BuildingDto building) {
         System.out.println(building.getId());
-        BuildingDTO buildingToUpdate = buildingService.findBuildingById(building.getId());
-        buildingToUpdate.setNameOfBuilding(building.getNameOfBuilding());
+        BuildingDto buildingToUpdate = buildingService.findBuildingById(building.getId());
+        buildingToUpdate.setName(building.getName());
         buildingToUpdate.setOwner(building.getOwner());
         buildingToUpdate.setAddress(building.getAddress());
         buildingToUpdate.setImageUrl(building.getImageUrl());
@@ -53,17 +53,17 @@ public class OfficeController {
     }
 
     @GetMapping("/getAllFloors")
-    public List<FloorDTO> getAllFloors() {
+    public List<FloorDto> getAllFloors() {
         return floorService.findAllFloors();
     }
 
     @GetMapping(value = "/getFloor", params = "id")
-    public FloorDTO getFloor(@RequestParam Long id) {
+    public FloorDto getFloor(@RequestParam Long id) {
         return floorService.findFloorById(id);
     }
 
-    @GetMapping(value = "/getFloorByBuilding", params = "id")
-    public List<FloorDTO> getFloorByBuilding(@RequestParam Long id) {
+    @GetMapping(value = "/getFloorsByBuilding", params = "id")
+    public List<FloorDto> getFloorByBuilding(@RequestParam Long id) {
         return floorService.findAllFloorsByBuildingId(id);
     }
 

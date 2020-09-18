@@ -41,7 +41,6 @@ public class AuthenticationController {
 
         User newUser = new User();
         newUser.setName(registerRequest.getName());
-
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(registerRequest.getPassword());
 

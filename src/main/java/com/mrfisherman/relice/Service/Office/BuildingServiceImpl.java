@@ -1,7 +1,7 @@
 package com.mrfisherman.relice.Service.Office;
 
-import com.mrfisherman.relice.Dto.BuildingDTO;
-import com.mrfisherman.relice.Entity.Property.Building;
+import com.mrfisherman.relice.Dto.BuildingDto;
+import com.mrfisherman.relice.Entity.Building.Building;
 import com.mrfisherman.relice.Repository.BuildingRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,18 +22,18 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public Set<BuildingDTO> findAllBuildings() {
+    public Set<BuildingDto> findAllBuildings() {
         Set<Building> buildings = buildingRepository.findAllWithoutNPlusOne();
-        return modelMapper.map(buildings, new TypeToken<Set<BuildingDTO>>() {}.getType());
+        return modelMapper.map(buildings, new TypeToken<Set<BuildingDto>>() {}.getType());
     }
 
     @Override
-    public BuildingDTO findBuildingByNameOfBuilding(String buildingName) {
-        return modelMapper.map(buildingRepository.findByNameOfBuilding(buildingName), BuildingDTO.class);
+    public BuildingDto findBuildingByName(String name) {
+        return modelMapper.map(buildingRepository.findByName(name), BuildingDto.class);
     }
 
     @Override
-    public void saveBuilding(BuildingDTO building) {
+    public void saveBuilding(BuildingDto building) {
         buildingRepository.save(modelMapper.map(building, Building.class));
     }
 
@@ -43,12 +43,12 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public BuildingDTO findBuildingById(Long id) {
-        return modelMapper.map(buildingRepository.findById(id).orElseThrow(EntityNotFoundException::new), BuildingDTO.class);
+    public BuildingDto findBuildingById(Long id) {
+        return modelMapper.map(buildingRepository.findById(id).orElseThrow(EntityNotFoundException::new), BuildingDto.class);
     }
 
     @Override
-    public BuildingDTO getOneById(Long id) {
-        return modelMapper.map(buildingRepository.getOne(id), BuildingDTO.class);
+    public BuildingDto getOneById(Long id) {
+        return modelMapper.map(buildingRepository.getOne(id), BuildingDto.class);
     }
 }

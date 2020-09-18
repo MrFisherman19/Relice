@@ -1,24 +1,23 @@
 package com.mrfisherman.relice.Service.Office;
 
-import com.mrfisherman.relice.Dto.FloorDTO;
+import com.mrfisherman.relice.Dto.FloorDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public interface FloorService {
 
-    void saveFloor(FloorDTO floorDTO);
+    void saveFloor(FloorDto floorDTO);
 
     void deleteFloor(Long id);
 
-    FloorDTO findFloorById(Long id);
+    FloorDto findFloorById(Long id);
 
-    FloorDTO getOneById(Long id);
+    FloorDto getOneById(Long id);
 
-    List<FloorDTO> findAllFloorsByBuildingId(Long buildingId);
+    List<FloorDto> findAllFloorsByBuildingId(Long buildingId);
 
-    List<FloorDTO> findAllFloors();
+    List<FloorDto> findAllFloors();
 
 }
