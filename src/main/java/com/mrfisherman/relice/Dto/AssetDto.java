@@ -1,16 +1,17 @@
 package com.mrfisherman.relice.Dto;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.NotNull;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class AssetDto {
 
     private Long id;
     private String name;
-    private String prefix;
     private String additionalNote;
 
     @Setter(AccessLevel.NONE)
@@ -21,6 +22,8 @@ public class AssetDto {
 
     @Setter(AccessLevel.NONE)
     private String assetType;
+
+    private String typeShortcut;
 
     private LocalizationDto localization;
 

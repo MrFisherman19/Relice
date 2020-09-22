@@ -2,27 +2,27 @@ package com.mrfisherman.relice.Entity.Asset;
 
 public enum AssetType {
     LAPTOP("LAP"),
-    PC("PC"),
-    MONITOR("MON"),
+    COMPUTER("COM"),
+    MONITOR("MTR"),
     PRINTER("PRI"),
-    TELEPHONE("PHO"),
+    TELEPHONE("TEL"),
     KEYBOARD("KEY"),
-    MOUSE("MSE"),
+    MOUSE("MOU"),
     DESK("DSK"),
-    TABLE("TAB"),
-    CONTAINER("CTN"),
+    TABLE("TBL"),
+    CONTAINER("CON"),
     WARDROBE("WAR"),
-    HANGER("HAN"),
-    ARMCHAIR("ACH"),
-    CHAIR("CH");
+    HANGER("HNG"),
+    ARMCHAIR("ARM"),
+    CHAIR("CHR");
 
-    public String prefix;
+    final private String shortcut;
 
-    AssetType(String prefix) {
-        this.prefix = prefix;
+    AssetType(String shortcut) {
+        this.shortcut = shortcut;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String getShortcut() {
+        return shortcut;
     }
 }

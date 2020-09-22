@@ -2,11 +2,12 @@ package com.mrfisherman.relice.Entity.Asset;
 
 import com.mrfisherman.relice.Entity.NamedEntity;
 import com.mrfisherman.relice.Entity.Property.Localization;
-import com.sun.istack.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance
@@ -14,7 +15,6 @@ import javax.persistence.*;
 @Setter
 public class AssetEntity extends NamedEntity {
 
-    private String prefix;
     private String additionalNote;
 
     @NotNull
@@ -29,8 +29,15 @@ public class AssetEntity extends NamedEntity {
     @Enumerated(EnumType.STRING)
     private AssetType assetType;
 
+    @Getter(AccessLevel.NONE)
+    @Transient
+    private String typeShortcut;
+
     @Embedded
     private Localization localization;
 
-
+    public String getTypeShortcut() {
+        return assetType.getShortcut();
+    }
 }
+

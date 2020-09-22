@@ -14,7 +14,7 @@ import java.util.List;
 public class PdfServiceImpl implements PdfService {
 
     private static final int PDF_TABLE_COLUMNS = 4;
-    private static final int PDF_CELL_IMAGE_SCALE = 25;
+    private static final int PDF_CELL_IMAGE_SCALE = 20;
     private static final Rectangle PAGE_SIZE = PageSize.A4;
 
     @Override

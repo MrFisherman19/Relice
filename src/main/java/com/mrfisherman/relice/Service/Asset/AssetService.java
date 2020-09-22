@@ -8,13 +8,11 @@ import java.util.List;
 @Service
 public interface AssetService {
 
-    void saveAsset(AssetDto asset);
+    Long saveAsset(AssetDto asset);
 
     void deleteAsset(Long id);
 
-    AssetDto findAssetById(Long id) throws Throwable;
-
-    AssetDto getOneById(Long id);
+    AssetDto findAssetById(Long id);
 
     List<AssetDto> findAllAssets();
 

@@ -62,21 +62,22 @@ public class ReliceApplication {
             buildingRepository.save(building);
 
             for (int i = 1; i < 7; i++) {
-                Floor floor = new Floor();
-                floor.setName("Floor" + i);
-                floor.setBuilding(building);
 
+                Floor floor = new Floor();
+                floor.setName("Floor " + i);
+                floor.setBuilding(building);
                 floorRepository.save(floor);
-                for (int j = 1; j < 200; j++) {
-                    AssetEntity assetEntity = new AssetEntity();
-                    assetEntity.setPrefix("DES");
-                    assetEntity.setAssetType(assetTypes[(int)(Math.random() * assetTypes.length)]);
-                    assetEntity.setLocalization(new Localization(floor, 2, 3));
-                    assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
-                    assetEntity.setAssetLocationState(furnitureLocationStates[(int)(Math.random()*furnitureLocationStates.length)]);
-                    assetEntity.setAdditionalNote(additionalNotes[(int)(Math.random()*additionalNotes.length)]);
-                    assetRepository.save(assetEntity);
-                }
+
+//                for (int j = 1; j < 200; j++) {
+//                    AssetEntity assetEntity = new AssetEntity();
+//                    assetEntity.setName("Desk " + j);
+//                    assetEntity.setAssetType(assetTypes[(int)(Math.random() * assetTypes.length)]);
+//                    assetEntity.setLocalization(new Localization(floor, 2, 3));
+//                    assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
+//                    assetEntity.setAssetLocationState(furnitureLocationStates[(int)(Math.random()*furnitureLocationStates.length)]);
+//                    assetEntity.setAdditionalNote(additionalNotes[(int)(Math.random()*additionalNotes.length)]);
+//                    assetRepository.save(assetEntity);
+//                }
             }
 
             User user = new User();
@@ -89,6 +90,17 @@ public class ReliceApplication {
             user.setNonLocked(true);
 
             userRepository.save(user);
+
+            User user2 = new User();
+            user2.setId(2L);
+            user2.setUserRole(UserRole.ROLE_USER);
+            user2.setEmail("rybka143@amorki.pl");
+            user2.setName("Bartosz");
+            user2.setPassword("$2y$12$etpCMI2qXcNpq.ux7VYmnuxxa7buKiu2BNRdVV5hZzia9SQ265UWe");
+            user2.setEnabled(true);
+            user2.setNonLocked(true);
+
+            userRepository.save(user2);
         }
     }
 }

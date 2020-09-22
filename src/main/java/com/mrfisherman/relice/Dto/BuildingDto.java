@@ -1,10 +1,7 @@
 package com.mrfisherman.relice.Dto;
 
 import com.mrfisherman.relice.Entity.Property.Address;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -4,6 +4,7 @@ import com.mrfisherman.relice.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -38,7 +39,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().and()
                 .authorizeRequests()
-                .antMatchers("/furniture/*").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET,"/asset/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST,"/asset/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT,"/asset/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE,"/asset/**").hasAnyRole("ADMIN")
                 .antMatchers("/userDetails").hasRole("ADMIN")
                 .antMatchers("/sign-in","/sign-up","/confirm/**").permitAll()
                 .anyRequest().authenticated().and()

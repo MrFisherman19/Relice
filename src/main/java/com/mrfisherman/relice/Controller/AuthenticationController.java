@@ -37,7 +37,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/sign-up", consumes = "application/json")
-    public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) throws Exception {
+    public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
 
         User newUser = new User();
         newUser.setName(registerRequest.getName());
@@ -74,7 +74,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/confirm")
-    ResponseEntity<HttpHeaders> confirmMail(@RequestParam("token") String token) {
+    ResponseEntity<HttpHeaders> confirmMail(@RequestParam("token") String token) throws Exception {
         UserConfirmationToken optionalUserConfirmationToken = userConfirmationTokenService.findConfirmationTokenByToken(token);
         userService.confirmUser(optionalUserConfirmationToken);
         HttpHeaders httpHeaders = new HttpHeaders();

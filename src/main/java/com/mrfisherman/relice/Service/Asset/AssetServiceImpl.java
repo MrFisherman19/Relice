@@ -22,23 +22,18 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public void saveAsset(AssetDto asset) {
-        assetRepository.save(modelMapper.map(asset, AssetEntity.class));
+    public Long saveAsset(AssetDto asset) {
+        return assetRepository.save(modelMapper.map(asset, AssetEntity.class)).getId();
     }
 
     @Override
-    public void deleteAsset(Long id) {
+    public void deleteAsset(Long id) throws IllegalArgumentException {
         assetRepository.deleteById(id);
     }
 
     @Override
     public AssetDto findAssetById(Long id) {
         return modelMapper.map(assetRepository.findById(id).orElseThrow(EntityNotFoundException::new), AssetDto.class);
-    }
-
-    @Override
-    public AssetDto getOneById(Long id) {
-        return modelMapper.map(assetRepository.getOne(id), AssetDto.class);
     }
 
     @Override

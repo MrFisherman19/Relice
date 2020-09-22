@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.mrfisherman.relice.Entity.BaseEntity;
 import com.mrfisherman.relice.Entity.NamedEntity;
 import com.mrfisherman.relice.Entity.Property.Address;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +31,14 @@ public class Building extends NamedEntity {
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, targetEntity = Floor.class)
     private Set<Floor> floors;
 
+    @Transient
+    private int numberOfFloors;
+
     public Building(String nameOfBuilding) {
         super.setName(nameOfBuilding);
+    }
+
+    public int getNumberOfFloors() {
+        return floors.size();
     }
 }
