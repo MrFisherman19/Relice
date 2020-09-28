@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Embeddable
@@ -13,15 +14,21 @@ import javax.validation.constraints.Min;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Dimensions {
+public class Color {
 
-    @Min(1)
-    private int width;
+    @Min(0)
+    @Max(255)
+    private int r;
 
-    @Min(1)
-    private int height;
+    @Min(0)
+    @Max(255)
+    private int g;
 
-    @Min(1)
-    private int depth;
+    @Min(0)
+    @Max(255)
+    private int b;
 
+    @Min(0)
+    @Max(255)
+    private int a;
 }

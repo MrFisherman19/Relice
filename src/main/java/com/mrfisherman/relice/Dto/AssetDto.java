@@ -10,22 +10,31 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class AssetDto {
 
+    @NotNull
     private Long id;
+
+    @NotNull
     private String name;
+
     private String additionalNote;
 
+    @NotNull
     @Setter(AccessLevel.NONE)
     private String assetConditionState;
 
+    @NotNull
     @Setter(AccessLevel.NONE)
     private String assetLocationState;
 
+    @NotNull
     @Setter(AccessLevel.NONE)
     private String assetType;
 
     private String typeShortcut;
 
     private LocalizationDto localization;
+
+    private AssetMapDetailsDto assetMapDetails;
 
     public void setAssetConditionState(String assetConditionState) {
         this.assetConditionState = enumForm(assetConditionState);

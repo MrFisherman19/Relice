@@ -47,7 +47,7 @@ public class AuthenticationController {
         try {
             userService.signUpUser(newUser);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("User with this username already exist");
+            return ResponseEntity.badRequest().body("User with this username (email) already exist");
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

@@ -4,6 +4,7 @@ import com.mrfisherman.relice.Dto.AssetDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface AssetService {
@@ -16,4 +17,5 @@ public interface AssetService {
 
     List<AssetDto> findAllAssets();
 
+    Set<AssetDto> findAssetsByFloorId(Long id);
 }

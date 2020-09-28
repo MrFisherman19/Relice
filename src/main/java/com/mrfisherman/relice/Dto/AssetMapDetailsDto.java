@@ -1,22 +1,21 @@
 package com.mrfisherman.relice.Dto;
 
+import com.mrfisherman.relice.Entity.Property.Color;
+import com.mrfisherman.relice.Entity.Property.Dimensions;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
+
 @NoArgsConstructor
 @Getter
 @Setter
-public class FloorDto {
+public class AssetMapDetailsDto {
 
     @NotNull
-    private Long id;
+    private Dimensions dimensions;
 
-    private String name;
-
-    @NotNull
-    private BuildingMinimalDto building;
-
+    private Color color;
 }

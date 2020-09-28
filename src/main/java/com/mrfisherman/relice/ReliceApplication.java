@@ -1,12 +1,11 @@
 package com.mrfisherman.relice;
 
-import com.mrfisherman.relice.Entity.Asset.AssetConditionState;
-import com.mrfisherman.relice.Entity.Asset.AssetEntity;
-import com.mrfisherman.relice.Entity.Asset.AssetLocationState;
-import com.mrfisherman.relice.Entity.Asset.AssetType;
+import com.mrfisherman.relice.Entity.Asset.*;
 import com.mrfisherman.relice.Entity.Property.Address;
 import com.mrfisherman.relice.Entity.Building.Building;
 import com.mrfisherman.relice.Entity.Building.Floor;
+import com.mrfisherman.relice.Entity.Property.Color;
+import com.mrfisherman.relice.Entity.Property.Dimensions;
 import com.mrfisherman.relice.Entity.Property.Localization;
 import com.mrfisherman.relice.Entity.User.User;
 import com.mrfisherman.relice.Entity.User.UserRole;
@@ -15,6 +14,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
+
+import java.util.Random;
 
 @SpringBootApplication
 public class ReliceApplication {
@@ -30,6 +31,8 @@ public class ReliceApplication {
         final UserRepository userRepository;
         final BuildingRepository buildingRepository;
         final FloorRepository floorRepository;
+
+        private static final Random random = new Random();
 
         public addTestDataToDatabase(AssetRepository assetRepository, UserRepository userRepository,
                                      BuildingRepository buildingRepository, FloorRepository floorRepository) {
@@ -68,16 +71,22 @@ public class ReliceApplication {
                 floor.setBuilding(building);
                 floorRepository.save(floor);
 
-//                for (int j = 1; j < 200; j++) {
-//                    AssetEntity assetEntity = new AssetEntity();
-//                    assetEntity.setName("Desk " + j);
-//                    assetEntity.setAssetType(assetTypes[(int)(Math.random() * assetTypes.length)]);
-//                    assetEntity.setLocalization(new Localization(floor, 2, 3));
-//                    assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
-//                    assetEntity.setAssetLocationState(furnitureLocationStates[(int)(Math.random()*furnitureLocationStates.length)]);
-//                    assetEntity.setAdditionalNote(additionalNotes[(int)(Math.random()*additionalNotes.length)]);
-//                    assetRepository.save(assetEntity);
-//                }
+                for (int j = 1; j < 20; j++) {
+
+                    AssetMapDetails assetMapDetails = new AssetMapDetails(
+                            new Dimensions(randomIntNumber(100,25), randomIntNumber(100,25), randomIntNumber(100,25)),
+                            new Color(randomIntNumber(255,0), randomIntNumber(255,0), randomIntNumber(255,0), randomIntNumber(255,0)));
+
+                    AssetEntity assetEntity = new AssetEntity();
+                    assetEntity.setName("Asset " + j);
+                    assetEntity.setAssetType(assetTypes[(int) (Math.random() * assetTypes.length)]);
+                    assetEntity.setLocalization(new Localization(floor, randomIntNumber(1000,0), randomIntNumber(1200,0), randomIntNumber(20,0)));
+                    assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
+                    assetEntity.setAssetLocationState(furnitureLocationStates[(int) (Math.random() * furnitureLocationStates.length)]);
+                    assetEntity.setAdditionalNote(additionalNotes[(int) (Math.random() * additionalNotes.length)]);
+                    assetEntity.setAssetDetails(assetMapDetails);
+                    assetRepository.save(assetEntity);
+                }
             }
 
             User user = new User();
@@ -101,6 +110,10 @@ public class ReliceApplication {
             user2.setNonLocked(true);
 
             userRepository.save(user2);
+        }
+
+        private int randomIntNumber(int rangeMax, int rangeMin) {
+            return (int) (random.nextDouble() * rangeMax + rangeMin);
         }
     }
 }

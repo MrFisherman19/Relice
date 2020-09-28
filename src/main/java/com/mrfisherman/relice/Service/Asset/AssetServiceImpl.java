@@ -2,13 +2,13 @@ package com.mrfisherman.relice.Service.Asset;
 
 import com.mrfisherman.relice.Dto.AssetDto;
 import com.mrfisherman.relice.Entity.Asset.AssetEntity;
-import com.mrfisherman.relice.Repository.AssetBaseRepository;
 import com.mrfisherman.relice.Repository.AssetRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AssetServiceImpl implements AssetService {
@@ -37,8 +37,14 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public Set<AssetDto> findAssetsByFloorId(Long id) {
+        Set<AssetEntity> assets = assetRepository.findByFloorId(id);
+        return modelMapper.map(assets, new TypeToken<Set<AssetEntity>>() {}.getType());
+    }
+
+    @Override
     public List<AssetDto> findAllAssets() {
-        List<AssetEntity> desks = assetRepository.findAllWithoutNPlusOne();
-        return modelMapper.map(desks, new TypeToken<List<AssetEntity>>() {}.getType());
+        List<AssetEntity> assets = assetRepository.findAllWithoutNPlusOne();
+        return modelMapper.map(assets, new TypeToken<List<AssetEntity>>() {}.getType());
     }
 }

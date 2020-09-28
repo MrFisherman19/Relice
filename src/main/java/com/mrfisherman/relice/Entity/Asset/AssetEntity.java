@@ -36,6 +36,9 @@ public class AssetEntity extends NamedEntity {
     @Embedded
     private Localization localization;
 
+    @Embedded
+    private AssetMapDetails assetDetails;
+
     public String getTypeShortcut() {
         return assetType.getShortcut();
     }

@@ -8,10 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/asset")
@@ -36,6 +35,11 @@ public class AssetController {
         return assetService.findAllAssets();
     }
 
+    @GetMapping(value = "/getAssetsByFloorId", params = "id")
+    public Set<AssetDto> getAssetsByFloorId(@RequestParam Long id) {
+        return assetService.findAssetsByFloorId(id);
+    }
+
     @PostMapping("/createAsset")
     public ResponseEntity<?> createAsset(@RequestBody AssetDto asset) {
         Long newItemId = assetService.saveAsset(asset);
@@ -51,6 +55,8 @@ public class AssetController {
             asset.setAdditionalNote(updatedAsset.getAdditionalNote());
             asset.setAssetConditionState(updatedAsset.getAssetConditionState());
             asset.setAssetLocationState(updatedAsset.getAssetLocationState());
+            asset.setAssetType(updatedAsset.getAssetType());
+            asset.setName(updatedAsset.getName());
             assetService.saveAsset(asset);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_MUST_NOT_BE_NULL_MESSAGE);
