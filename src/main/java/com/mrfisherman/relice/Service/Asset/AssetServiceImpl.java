@@ -33,7 +33,13 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public AssetDto findAssetById(Long id) {
-        return modelMapper.map(assetRepository.findById(id).orElseThrow(EntityNotFoundException::new), AssetDto.class);
+        AssetDto asset;
+        if (assetRepository.findById(id).isPresent()) {
+            asset = modelMapper.map(assetRepository.findById(id), AssetDto.class);
+        } else {
+            throw new EntityNotFoundException("No user with id: " + id);
+        }
+        return asset;
     }
 
     @Override

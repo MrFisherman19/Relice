@@ -21,5 +21,4 @@ public class UserController {
     User getUserDetailsByEmail(@RequestParam("email") String email) {
         return userService.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Cannot find user with email: " + email));
     }
-
 }

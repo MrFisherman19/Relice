@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
-
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,5 +16,6 @@ public class AssetMapDetailsDto {
     @NotNull
     private Dimensions dimensions;
 
+    @NotNull
     private Color color;
 }

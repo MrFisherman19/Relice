@@ -18,17 +18,17 @@ public class Color {
 
     @Min(0)
     @Max(255)
-    private int r;
+    private int r = 0;
 
     @Min(0)
     @Max(255)
-    private int g;
+    private int g = 0;
 
     @Min(0)
     @Max(255)
-    private int b;
+    private int b = 0;
 
     @Min(0)
     @Max(255)
-    private int a;
+    private int a = 0;
 }

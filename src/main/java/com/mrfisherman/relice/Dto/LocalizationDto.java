@@ -18,11 +18,11 @@ public class LocalizationDto {
     private FloorDto floor;
 
     @Min(0)
-    @Max(1000)
+    @Max(999)
     private int xAxis;
 
     @Min(0)
-    @Max(1200)
+    @Max(1199)
     private int yAxis;
 
     @Min(0)

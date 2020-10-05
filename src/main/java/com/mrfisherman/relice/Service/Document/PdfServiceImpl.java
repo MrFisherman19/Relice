@@ -39,7 +39,7 @@ public class PdfServiceImpl implements PdfService {
             try {
                 Image image = Image.getInstance(x);
                 image.scalePercent(PDF_CELL_IMAGE_SCALE);
-                addImageToRows(image, table);
+                addImageToRow(image, table);
             } catch (DocumentException | IOException e) {
                 e.printStackTrace();
             }
@@ -52,15 +52,19 @@ public class PdfServiceImpl implements PdfService {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private void addImageToRows(Image image, PdfPTable table) {
-        PdfPCell cell = new PdfPCell(image);
+    private void addImageToRow(Image image, PdfPTable table) {
+        PdfPCell cell = configureCell(new PdfPCell(image));
+        table.addCell(cell);
+    }
+
+    private PdfPCell configureCell(PdfPCell cell) {
 
         cell.setBorder(BORDER);
         cell.setPaddingTop(CEL_PADDING_TOP);
         cell.setPaddingBottom(CEL_PADDING_BOTTOM);
         cell.setHorizontalAlignment(HORIZONTAL_ALIGN);
 
-        table.addCell(cell);
+        return cell;
     }
 
 }

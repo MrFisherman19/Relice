@@ -17,7 +17,8 @@ import javax.persistence.Embedded;
 public class AssetMapDetails {
 
     @Embedded
-    private Dimensions dimensions;
+    private Dimensions dimensions = new Dimensions(100,100,1);
 
+    @Embedded
     private Color color = new Color(255,255,255,255);
 }

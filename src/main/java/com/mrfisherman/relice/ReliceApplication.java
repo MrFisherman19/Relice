@@ -71,7 +71,7 @@ public class ReliceApplication {
                 floor.setBuilding(building);
                 floorRepository.save(floor);
 
-                for (int j = 1; j < 20; j++) {
+                for (int j = 1; j < 1000; j++) {
 
                     AssetMapDetails assetMapDetails = new AssetMapDetails(
                             new Dimensions(randomIntNumber(100,25), randomIntNumber(100,25), randomIntNumber(100,25)),
@@ -84,21 +84,21 @@ public class ReliceApplication {
                     assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
                     assetEntity.setAssetLocationState(furnitureLocationStates[(int) (Math.random() * furnitureLocationStates.length)]);
                     assetEntity.setAdditionalNote(additionalNotes[(int) (Math.random() * additionalNotes.length)]);
-                    assetEntity.setAssetDetails(assetMapDetails);
+                    assetEntity.setAssetMapDetails(assetMapDetails);
                     assetRepository.save(assetEntity);
                 }
             }
 
-            User user = new User();
-            user.setId(1L);
-            user.setUserRole(UserRole.ROLE_ADMIN);
-            user.setEmail("bartex1010.xdxd@gmail.com");
-            user.setName("Bartosz");
-            user.setPassword("$2y$12$etpCMI2qXcNpq.ux7VYmnuxxa7buKiu2BNRdVV5hZzia9SQ265UWe");
-            user.setEnabled(true);
-            user.setNonLocked(true);
-
-            userRepository.save(user);
+//            User user = new User();
+//            user.setId(1L);
+//            user.setUserRole(UserRole.ROLE_ADMIN);
+//            user.setEmail("bartex1010.xdxd@gmail.com");
+//            user.setName("Bartosz");
+//            user.setPassword("$2y$12$etpCMI2qXcNpq.ux7VYmnuxxa7buKiu2BNRdVV5hZzia9SQ265UWe");
+//            user.setEnabled(true);
+//            user.setNonLocked(true);
+//
+//            userRepository.save(user);
 
             User user2 = new User();
             user2.setId(2L);

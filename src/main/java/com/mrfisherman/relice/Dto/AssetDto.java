@@ -10,10 +10,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class AssetDto {
 
-    @NotNull
     private Long id;
 
-    @NotNull
     private String name;
 
     private String additionalNote;

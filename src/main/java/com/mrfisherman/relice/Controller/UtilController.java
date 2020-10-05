@@ -20,6 +20,5 @@ public class UtilController {
                 AssetConditionState.values(),
                 AssetLocationState.values(),
                 UserRole.values());
-
     }
 }

@@ -1,5 +1,6 @@
 package com.mrfisherman.relice.Service.Barcode;
 
+import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.springframework.stereotype.Service;
@@ -23,18 +24,26 @@ public class BarcodeServiceImpl implements BarcodeService {
 
     @Override
     public byte[] generateBarcodeCode128ByteArray(String barcodeText) {
-        Code128Bean barcodeGenerator = new Code128Bean();
-        barcodeGenerator.setBarHeight(BARCODE_HEIGHT);
-        barcodeGenerator.setFontSize(BARCODE_FONT_SIZE);
+
         BitmapCanvasProvider canvas = new BitmapCanvasProvider(BARCODE_RESOLUTION, BufferedImage.TYPE_BYTE_BINARY, true, 0);
-        barcodeGenerator.generateBarcode(canvas, barcodeText);
+        getCode128BarcodeGenerator().generateBarcode(canvas, barcodeText);
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
         try {
             ImageIO.write(canvas.getBufferedImage(), FORMAT_NAME, byteArrayOutputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return byteArrayOutputStream.toByteArray();
+    }
+
+    private Code128Bean getCode128BarcodeGenerator() {
+        Code128Bean barcodeGenerator = new Code128Bean();
+        barcodeGenerator.setBarHeight(BARCODE_HEIGHT);
+        barcodeGenerator.setFontSize(BARCODE_FONT_SIZE);
+        return barcodeGenerator;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.mrfisherman.relice.Controller.ExceptionHandler;
 import org.hibernate.PropertyValueException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,6 +31,5 @@ public class RestControllerExceptionHandler {
     public HashMap<String, String> handleNotNullPropertyReferencesNullValue(Exception e) {
         return createResponseWithMessageAndError(NOT_NULL_VALUE_WAS_NULL_MESSAGE, e);
     }
-
 
 }

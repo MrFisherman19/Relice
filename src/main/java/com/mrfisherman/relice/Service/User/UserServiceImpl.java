@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        final Optional<User> optionalUser = findByEmail(email);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
+        final Optional<User> user = findByEmail(email);
+        if (user.isPresent()) {
+            return user.get();
         } else {
             throw new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", email));
         }
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public void signUpUser(User user) throws BadCredentialsException {
 
         if (findByEmail(user.getEmail()).isPresent()) {
-            throw new BadCredentialsException("USER ALREADY EXIST");
+            throw new BadCredentialsException("User already exist.");
         } else {
 
             final String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
         simpleMailMessage.setTo(userEmail);
         simpleMailMessage.setSubject("Welcome to Relice! Please confirm your email address!");
         simpleMailMessage.setFrom("<MAIL>");
-        simpleMailMessage.setText("Thank you for sing up to the Relice app! Please click the link below to activate" +
-                " your account: " + "http://localhost:8081/confirm?token=" + token);
+        simpleMailMessage.setText("Thank you for sing up to the Relice app! \n\nPlease click the link below to activate" +
+                " your account: \n" + "http://localhost:8081/confirm?token=" + token + "\n\nBest reards, \nRelice team");
         emailService.sendEmail(simpleMailMessage);
     }
 }

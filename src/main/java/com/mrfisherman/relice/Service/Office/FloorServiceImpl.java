@@ -52,4 +52,6 @@ public class FloorServiceImpl implements FloorService {
         List<Floor> floors = floorRepository.findAllOrderByBuildingAndFloorNumber();
         return modelMapper.map(floors, new TypeToken<List<FloorDto>>() {}.getType());
     }
+
+
 }

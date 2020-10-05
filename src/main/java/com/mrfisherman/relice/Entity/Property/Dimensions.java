@@ -16,12 +16,12 @@ import javax.validation.constraints.Min;
 public class Dimensions {
 
     @Min(1)
-    private int width;
+    private int width = 100;
 
     @Min(1)
-    private int height;
+    private int height = 100;
 
     @Min(1)
-    private int depth;
+    private int depth = 1;
 
 }

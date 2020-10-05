@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -41,26 +43,20 @@ public class AssetController {
     }
 
     @PostMapping("/createAsset")
-    public ResponseEntity<?> createAsset(@RequestBody AssetDto asset) {
+    public ResponseEntity<?> createAsset(@Valid @RequestBody AssetDto asset) {
         Long newItemId = assetService.saveAsset(asset);
         return ResponseEntity.ok().body(newItemId);
     }
 
     @PutMapping("/updateAsset")
-    public ResponseEntity<?> updateAsset(@RequestBody AssetDto updatedAsset) {
-        Long id = updatedAsset.getId();
-        if (id != null) {
-            AssetDto asset = assetService.findAssetById(id);
-            asset.setLocalization(updatedAsset.getLocalization());
-            asset.setAdditionalNote(updatedAsset.getAdditionalNote());
-            asset.setAssetConditionState(updatedAsset.getAssetConditionState());
-            asset.setAssetLocationState(updatedAsset.getAssetLocationState());
-            asset.setAssetType(updatedAsset.getAssetType());
-            asset.setName(updatedAsset.getName());
-            assetService.saveAsset(asset);
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_MUST_NOT_BE_NULL_MESSAGE);
-        }
+    public ResponseEntity<?> updateAsset(@Valid @RequestBody AssetDto updatedAsset) {
+        update(updatedAsset);
+        return ResponseEntity.ok("Asset successfully updated!");
+    }
+
+    @PutMapping("/updateAssets")
+    public ResponseEntity<?> updateAssets(@Valid @RequestBody List<AssetDto> updatedAsset) {
+        updatedAsset.forEach(this::update);
         return ResponseEntity.ok("Asset successfully updated!");
     }
 
@@ -74,5 +70,15 @@ public class AssetController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = ID_MUST_NOT_BE_NULL_MESSAGE)
     public HashMap<String, String> handleNullValueIdParsing(Exception e) {
         return HandlerUtil.createResponseWithMessageAndError(ID_MUST_NOT_BE_NULL_MESSAGE, e);
+    }
+
+    private void update(AssetDto updatedAsset) {
+        Long id = updatedAsset.getId();
+        if (id != null) {
+
+            assetService.saveAsset(updatedAsset);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_MUST_NOT_BE_NULL_MESSAGE);
+        }
     }
 }
