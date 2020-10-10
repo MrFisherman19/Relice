@@ -3,7 +3,7 @@ package com.mrfisherman.relice.Service.Office;
 import com.mrfisherman.relice.Dto.BuildingDto;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public interface BuildingService {
@@ -18,6 +18,6 @@ public interface BuildingService {
 
     BuildingDto findBuildingByName(String name);
 
-    Set<BuildingDto> findAllBuildings();
+    List<BuildingDto> findAllBuildings();
 
 }

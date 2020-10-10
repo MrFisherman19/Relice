@@ -8,7 +8,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
@@ -22,9 +22,9 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public Set<BuildingDto> findAllBuildings() {
-        Set<Building> buildings = buildingRepository.findAllWithoutNPlusOne();
-        return modelMapper.map(buildings, new TypeToken<Set<BuildingDto>>() {}.getType());
+    public List<BuildingDto> findAllBuildings() {
+        List<Building> buildings = buildingRepository.findAll();
+        return modelMapper.map(buildings, new TypeToken<List<BuildingDto>>() {}.getType());
     }
 
     @Override

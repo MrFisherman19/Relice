@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/office")
@@ -25,7 +24,7 @@ public class OfficeController {
     }
 
     @GetMapping("/getAllBuildings")
-    public Set<BuildingDto> getAllBuildings() {
+    public List<BuildingDto> getAllBuildings() {
         return buildingService.findAllBuildings();
     }
 
@@ -36,8 +35,16 @@ public class OfficeController {
 
     @PostMapping("/createBuilding")
     public ResponseEntity<?> createBuilding(@RequestBody BuildingDto building) {
+        System.out.println(building);
+
         buildingService.saveBuilding(building);
         return ResponseEntity.ok("Building successfully created!");
+    }
+
+    @PostMapping("/createFloor")
+    public ResponseEntity<?> createFloor(@RequestBody FloorDto floor) {
+        floorService.saveFloor(floor);
+        return ResponseEntity.ok("Floor successfully created!");
     }
 
     @PutMapping("/updateBuilding")

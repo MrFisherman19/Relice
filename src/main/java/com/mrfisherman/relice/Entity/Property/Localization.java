@@ -26,7 +26,7 @@ public class Localization {
     private int xAxis;
 
     @Min(0)
-    @Max(1200)
+    @Max(2400)
     private int yAxis;
 
     @Min(0)

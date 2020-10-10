@@ -73,9 +73,7 @@ public class AssetController {
     }
 
     private void update(AssetDto updatedAsset) {
-        Long id = updatedAsset.getId();
-        if (id != null) {
-
+        if (updatedAsset != null) {
             assetService.saveAsset(updatedAsset);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_MUST_NOT_BE_NULL_MESSAGE);

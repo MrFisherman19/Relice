@@ -27,18 +27,8 @@ public class Building extends NamedEntity {
     @Column(length = 1000)
     private String imageUrl;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, targetEntity = Floor.class)
-    private Set<Floor> floors;
-
-    @Transient
-    private int numberOfFloors;
-
     public Building(String nameOfBuilding) {
         super.setName(nameOfBuilding);
     }
 
-    public int getNumberOfFloors() {
-        return floors.size();
-    }
 }

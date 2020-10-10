@@ -74,12 +74,11 @@ public class JwtTokenUtil {
         Boolean isUser = claims.get("isUser", Boolean.class);
 
         if (isAdmin != null && isAdmin) {
-            roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         if (isUser != null && isUser) {
-            roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+            roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        System.out.println(roles + " from token.");
         return roles;
     }
 

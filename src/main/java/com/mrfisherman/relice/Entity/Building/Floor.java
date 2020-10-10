@@ -1,8 +1,6 @@
 package com.mrfisherman.relice.Entity.Building;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.mrfisherman.relice.Entity.BaseEntity;
-import com.mrfisherman.relice.Entity.Building.Building;
 import com.mrfisherman.relice.Entity.NamedEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
