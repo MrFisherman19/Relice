@@ -20,5 +20,5 @@ public class AssetMapDetails {
     private Dimensions dimensions = new Dimensions(100,100,1);
 
     @Embedded
-    private Color color = new Color(255,255,255,255);
+    private Color color = new Color("#222222");
 }

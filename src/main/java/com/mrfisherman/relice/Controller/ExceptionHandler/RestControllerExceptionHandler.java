@@ -17,7 +17,7 @@ import static com.mrfisherman.relice.Controller.ExceptionHandler.HandlerUtil.cre
 @RestControllerAdvice
 public class RestControllerExceptionHandler {
 
-    private static final String NOT_FOUND_EXCEPTION_MESSAGE = "Asset not found for given id";
+    private static final String NOT_FOUND_EXCEPTION_MESSAGE = "Object not found for given id";
     private static final String NOT_NULL_VALUE_WAS_NULL_MESSAGE = "Not null property references null or transient value";
 
     @ExceptionHandler({EntityNotFoundException.class, EmptyResultDataAccessException.class})

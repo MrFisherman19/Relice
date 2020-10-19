@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 @Embeddable
 @AllArgsConstructor
@@ -16,19 +15,6 @@ import javax.validation.constraints.Min;
 @Setter
 public class Color {
 
-    @Min(0)
-    @Max(255)
-    private int r = 0;
-
-    @Min(0)
-    @Max(255)
-    private int g = 0;
-
-    @Min(0)
-    @Max(255)
-    private int b = 0;
-
-    @Min(0)
-    @Max(255)
-    private int a = 0;
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
+    private String hexColor = "#222222";
 }

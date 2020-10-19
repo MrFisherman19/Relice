@@ -44,33 +44,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        final Optional<User> user = findByEmail(email);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", email));
-        }
+        return findByEmail(email).orElseThrow(()->
+                new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", email)));
     }
 
     @Override
     public void signUpUser(User user) throws BadCredentialsException {
+        findByEmail(user.getEmail()).ifPresentOrElse(u ->
+        { throw new BadCredentialsException("User with email: " + u.getEmail() + " already exist."); },
+                () -> {
+                    final String encryptedPassword = passwordEncoder.encode(user.getPassword());
+                    user.setPassword(encryptedPassword);
 
-        if (findByEmail(user.getEmail()).isPresent()) {
-            throw new BadCredentialsException("User already exist.");
-        } else {
+                    final User createdUser = userRepository.save(user);
+                    final UserConfirmationToken confirmationToken = new UserConfirmationToken(createdUser);
 
-            final String encryptedPassword = passwordEncoder.encode(user.getPassword());
-
-            user.setPassword(encryptedPassword);
-
-            final User createdUser = userRepository.save(user);
-
-            final UserConfirmationToken confirmationToken = new UserConfirmationToken(createdUser);
-
-            userConfirmationTokenService.saveConfirmationToken(confirmationToken);
-
-            sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
-        }
+                    userConfirmationTokenService.saveConfirmationToken(confirmationToken);
+                    sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+        });
     }
 
     @Override

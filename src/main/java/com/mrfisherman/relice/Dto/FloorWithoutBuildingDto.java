@@ -14,6 +14,8 @@ public class FloorWithoutBuildingDto {
     @NotNull
     private Long id;
 
-    private int name;
+    private String name;
+
+    private String description;
 
 }

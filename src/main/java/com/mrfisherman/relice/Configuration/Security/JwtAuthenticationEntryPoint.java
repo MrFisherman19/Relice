@@ -40,7 +40,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             }
         }
         writeToOutputStream(httpServletResponse, message);
-
     }
 
     private void writeToOutputStream(HttpServletResponse httpServletResponse, String message) throws IOException {

@@ -75,8 +75,9 @@ public class AuthenticationController {
 
     @GetMapping("/confirm")
     ResponseEntity<HttpHeaders> confirmMail(@RequestParam("token") String token) throws Exception {
-        UserConfirmationToken optionalUserConfirmationToken = userConfirmationTokenService.findConfirmationTokenByToken(token);
-        userService.confirmUser(optionalUserConfirmationToken);
+        userService.confirmUser(userConfirmationTokenService.findConfirmationTokenByToken(token).orElseThrow(
+                () -> new Exception("Token is invalid yet.")
+        ));
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Location","http://localhost:8080/sign-in");
         return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);

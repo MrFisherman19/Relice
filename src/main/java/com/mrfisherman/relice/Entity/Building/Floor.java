@@ -19,8 +19,11 @@ public class Floor extends NamedEntity {
     @JoinColumn(name = "BUILDING_ID")
     private Building building;
 
-    public Floor(Building building, String floorName) {
-        this.building = building;
+    private String description;
+
+    public Floor(Building building, String floorName, String descritption) {
         super.setName(floorName);
+        this.building = building;
+        this.description = descritption;
     }
 }

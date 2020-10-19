@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +52,7 @@ public class BarcodeController {
         headers.add("Content-Disposition", "inline; filename=barcodes.pdf");
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(pdfService.saveByteArraysToPdf(
+                .body(pdfService.saveDataToPdf(
                         barcodeService.generateListOfBarcodeCode128ByteArray(barcodeTexts.getBarcodeTexts())));
     }
 

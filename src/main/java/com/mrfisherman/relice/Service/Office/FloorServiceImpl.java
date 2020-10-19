@@ -16,9 +16,9 @@ public class FloorServiceImpl implements FloorService {
     private final FloorRepository floorRepository;
     private final ModelMapper modelMapper;
 
-    public FloorServiceImpl(FloorRepository floorRepository) {
+    public FloorServiceImpl(FloorRepository floorRepository, ModelMapper modelMapper) {
         this.floorRepository = floorRepository;
-        this.modelMapper = new ModelMapper();
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -34,11 +34,6 @@ public class FloorServiceImpl implements FloorService {
     @Override
     public FloorDto findFloorById(Long id) {
         return modelMapper.map(floorRepository.findById(id).orElseThrow(EntityNotFoundException::new), FloorDto.class);
-    }
-
-    @Override
-    public FloorDto getOneById(Long id) {
-        return modelMapper.map(floorRepository.getOne(id), FloorDto.class);
     }
 
     @Override

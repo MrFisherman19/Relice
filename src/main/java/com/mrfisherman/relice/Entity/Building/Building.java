@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -27,8 +28,22 @@ public class Building extends NamedEntity {
     @Column(length = 1000)
     private String imageUrl;
 
+    @JsonBackReference
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "building")
+    private List<Floor> floorList = new ArrayList<>();
+
+    @Transient
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private int numberOfFloors;
+
+    public int getNumberOfFloors() {
+        return this.floorList.size();
+    }
+
     public Building(String nameOfBuilding) {
         super.setName(nameOfBuilding);
     }
+
 
 }

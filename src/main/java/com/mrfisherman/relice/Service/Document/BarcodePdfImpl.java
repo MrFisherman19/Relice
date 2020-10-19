@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class PdfServiceImpl implements PdfService {
+public class BarcodePdfImpl implements PdfService {
 
     private static final int PDF_TABLE_COLUMNS = 5;
     private static final int PDF_CELL_IMAGE_SCALE = 18;
@@ -23,11 +23,16 @@ public class PdfServiceImpl implements PdfService {
 
     private static final Rectangle PAGE_SIZE = PageSize.A4;
 
-    @Override
-    public byte[] saveByteArraysToPdf(List<byte[]> byteArrays) throws DocumentException {
+    public byte[] saveDataToPdf(List<byte[]> barcodes) throws DocumentException {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
+        generateDocument(barcodes, byteArrayOutputStream);
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    private void generateDocument(List<byte[]> barcodes, ByteArrayOutputStream byteArrayOutputStream) throws DocumentException {
         Document document = new Document(PAGE_SIZE);
 
         PdfWriter.getInstance(document, byteArrayOutputStream);
@@ -35,7 +40,7 @@ public class PdfServiceImpl implements PdfService {
 
         PdfPTable table = new PdfPTable(PDF_TABLE_COLUMNS);
         table.setWidthPercentage(TABLE_WIDTH_PERCENTAGE);
-        byteArrays.forEach(x->{
+        barcodes.forEach(x->{
             try {
                 Image image = Image.getInstance(x);
                 image.scalePercent(PDF_CELL_IMAGE_SCALE);
@@ -48,8 +53,6 @@ public class PdfServiceImpl implements PdfService {
 
         document.add(table);
         document.close();
-
-        return byteArrayOutputStream.toByteArray();
     }
 
     private void addImageToRow(Image image, PdfPTable table) {

@@ -9,10 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 @RestController
 @RequestMapping("/asset")
@@ -48,15 +53,27 @@ public class AssetController {
         return ResponseEntity.ok().body(newItemId);
     }
 
+    @PostMapping(value = "/createMultiplyAssets", params = "amount")
+    public ResponseEntity<?> createMultiplyAssets(@Valid @RequestBody AssetDto asset, @RequestParam int amount) {
+        return ResponseEntity.ok().body(
+                LongStream.range(0, amount).map(x -> assetService.saveAsset(asset)).boxed().collect(Collectors.toList()));
+    }
+
+    @PostMapping("/createAssets")
+    public ResponseEntity<?> createAssets(@Valid @RequestBody List<AssetDto> assets) {
+        List<Long> newItemsId = assetService.saveAssets(assets);
+        return ResponseEntity.ok().body(newItemsId);
+    }
+
     @PutMapping("/updateAsset")
     public ResponseEntity<?> updateAsset(@Valid @RequestBody AssetDto updatedAsset) {
-        update(updatedAsset);
+        assetService.updateAsset(updatedAsset);
         return ResponseEntity.ok("Asset successfully updated!");
     }
 
     @PutMapping("/updateAssets")
     public ResponseEntity<?> updateAssets(@Valid @RequestBody List<AssetDto> updatedAsset) {
-        updatedAsset.forEach(this::update);
+        updatedAsset.forEach(assetService::updateAsset);
         return ResponseEntity.ok("Asset successfully updated!");
     }
 
@@ -66,17 +83,9 @@ public class AssetController {
         return ResponseEntity.ok("Asset successfully deleted!");
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({IllegalArgumentException.class, ConstraintViolationException.class, EntityNotFoundException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = ID_MUST_NOT_BE_NULL_MESSAGE)
     public HashMap<String, String> handleNullValueIdParsing(Exception e) {
         return HandlerUtil.createResponseWithMessageAndError(ID_MUST_NOT_BE_NULL_MESSAGE, e);
-    }
-
-    private void update(AssetDto updatedAsset) {
-        if (updatedAsset != null) {
-            assetService.saveAsset(updatedAsset);
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_MUST_NOT_BE_NULL_MESSAGE);
-        }
     }
 }

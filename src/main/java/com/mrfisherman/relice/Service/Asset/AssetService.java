@@ -13,9 +13,13 @@ public interface AssetService {
 
     void deleteAsset(Long id);
 
+    void updateAsset(AssetDto asset);
+
     AssetDto findAssetById(Long id);
 
     List<AssetDto> findAllAssets();
 
     Set<AssetDto> findAssetsByFloorId(Long id);
+
+    List<Long> saveAssets(List<AssetDto> assets);
 }

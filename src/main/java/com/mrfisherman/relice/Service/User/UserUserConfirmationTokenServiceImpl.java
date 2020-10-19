@@ -5,6 +5,8 @@ import com.mrfisherman.relice.Repository.UserConfirmationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserUserConfirmationTokenServiceImpl implements UserConfirmationTokenService {
 
@@ -26,7 +28,7 @@ public class UserUserConfirmationTokenServiceImpl implements UserConfirmationTok
     }
 
     @Override
-    public UserConfirmationToken findConfirmationTokenByToken(String token) {
+    public Optional<UserConfirmationToken> findConfirmationTokenByToken(String token) {
         return userConfirmationTokenRepository.findUserConfirmationTokenByConfirmationToken(token);
     }
 }

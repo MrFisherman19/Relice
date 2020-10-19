@@ -14,8 +14,6 @@ public interface FloorService {
 
     FloorDto findFloorById(Long id);
 
-    FloorDto getOneById(Long id);
-
     List<FloorDto> findAllFloorsByBuildingId(Long buildingId);
 
     List<FloorDto> findAllFloors();

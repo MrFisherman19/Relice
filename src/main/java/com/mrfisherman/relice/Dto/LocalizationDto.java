@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class LocalizationDto {
 
     @NotNull
-    private FloorDto floor;
+    private FloorWithoutBuildingDto floor;
 
     @Min(0)
     @Max(999)
