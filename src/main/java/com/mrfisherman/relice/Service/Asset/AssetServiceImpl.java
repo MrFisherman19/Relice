@@ -1,15 +1,12 @@
 package com.mrfisherman.relice.Service.Asset;
 
 import com.mrfisherman.relice.Dto.AssetDto;
-import com.mrfisherman.relice.Dto.FloorDto;
 import com.mrfisherman.relice.Entity.Asset.AssetEntity;
 import com.mrfisherman.relice.Repository.AssetRepository;
+import com.mrfisherman.relice.Repository.Projection.AssetConditionStateCount;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

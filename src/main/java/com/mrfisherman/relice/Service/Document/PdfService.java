@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface PdfService  {
 
-    byte[] saveDataToPdf(List<byte[]> barcodes) throws DocumentException;
+    byte[] saveDataToPdf(List<byte[]> images) throws DocumentException;
 
 }
