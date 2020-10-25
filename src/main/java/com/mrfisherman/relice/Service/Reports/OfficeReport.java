@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public interface OfficeReport {
 
-    byte[] getFinalReport() throws DocumentException, IOException;
+    byte[] getFinalReport() throws IOException, DocumentException;
 
 }

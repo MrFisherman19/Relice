@@ -1,6 +1,7 @@
 package com.mrfisherman.relice.Service.Asset;
 
 import com.mrfisherman.relice.Repository.AssetRepository;
+import com.mrfisherman.relice.Repository.Projection.AssetConditionStateByAssetType;
 import com.mrfisherman.relice.Repository.Projection.AssetConditionStateCount;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class AssetStatServiceImpl implements AssetStatsService {
 
     public List<AssetConditionStateCount> getAssetConditionStateCount() {
         return assetRepository.countAssetConditionStates();
+    }
+
+    public List<AssetConditionStateByAssetType> getAssetConditionStateCountByAssetType() {
+        return assetRepository.countAssetConditionStatesByType();
     }
 
 }
