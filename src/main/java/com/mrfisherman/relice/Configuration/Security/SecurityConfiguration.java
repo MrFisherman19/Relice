@@ -1,7 +1,7 @@
 package com.mrfisherman.relice.Configuration.Security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrfisherman.relice.Dto.ForbiddenExceptionDTO;
+import com.mrfisherman.relice.Dto.ForbiddenExceptionDto;
 import com.mrfisherman.relice.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtRequestFilter jwtRequestFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final static String ALLOWED_ORIGIN_URL = "http://localhost:8080";
 
     @Autowired
     public SecurityConfiguration(UserService userService, JwtRequestFilter jwtRequestFilter, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -61,14 +63,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
-        return ((httpServletRequest, httpServletResponse, e) -> {
-            httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        return ((httpServletRequest, httpServletResponse, e) -> handleAccessDeniedException(httpServletResponse));
+    }
 
-            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-            new ObjectMapper().writeValue(servletOutputStream, new ForbiddenExceptionDTO());
-            servletOutputStream.flush();
-        });
+    private void handleAccessDeniedException(HttpServletResponse httpServletResponse) throws IOException {
+        httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+
+        new ObjectMapper().writeValue(servletOutputStream, new ForbiddenExceptionDto());
+        servletOutputStream.flush();
     }
 
     @Bean
@@ -77,7 +82,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8080")
+                        .allowedOrigins(ALLOWED_ORIGIN_URL)
                         .allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
             }
         };

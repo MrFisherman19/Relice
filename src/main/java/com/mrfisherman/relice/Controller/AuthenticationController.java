@@ -1,11 +1,13 @@
 package com.mrfisherman.relice.Controller;
 
 import com.mrfisherman.relice.Configuration.Security.JwtTokenUtil;
+import com.mrfisherman.relice.Controller.ExceptionHandler.HandlerUtil;
 import com.mrfisherman.relice.Dto.Wrapper.LoginRequest;
 import com.mrfisherman.relice.Dto.Wrapper.LoginResponse;
 import com.mrfisherman.relice.Dto.Wrapper.RegisterRequest;
 import com.mrfisherman.relice.Entity.User.User;
 import com.mrfisherman.relice.Entity.User.UserConfirmationToken;
+import com.mrfisherman.relice.Exception.UserAlreadyExistException;
 import com.mrfisherman.relice.Service.User.UserConfirmationTokenService;
 import com.mrfisherman.relice.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
+import java.util.HashMap;
+
 @RestController
 public class AuthenticationController {
 
@@ -26,6 +32,8 @@ public class AuthenticationController {
     private final UserService userService;
     private final UserConfirmationTokenService userConfirmationTokenService;
     private final JwtTokenUtil jwtTokenUtil;
+
+    private final static String AFTER_TOKEN_CONFIRM_RELOCATION_URL = "http://localhost:8080/sign-in";
 
     @Autowired
     public AuthenticationController(UserService userService, UserConfirmationTokenService userConfirmationTokenService,
@@ -44,28 +52,16 @@ public class AuthenticationController {
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(registerRequest.getPassword());
 
-        try {
-            userService.signUpUser(newUser);
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("User with this username (email) already exist");
-        }
+        userService.signUpUser(newUser);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/sign-in", consumes = "application/json")
-    public ResponseEntity<?> signIn(@RequestBody LoginRequest loginRequest) throws Exception {
-
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginRequest.getUsername(),
-                    loginRequest.getPassword()));
-
-        } catch (DisabledException e) {
-            throw new Exception("User is unverified yet or disabled.", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password.", e);
-        }
+    public ResponseEntity<?> signIn(@RequestBody LoginRequest loginRequest) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getUsername(),
+                loginRequest.getPassword()));
 
         UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
@@ -75,12 +71,31 @@ public class AuthenticationController {
 
     @GetMapping("/confirm")
     ResponseEntity<HttpHeaders> confirmMail(@RequestParam("token") String token) throws Exception {
-        userService.confirmUser(userConfirmationTokenService.findConfirmationTokenByToken(token).orElseThrow(
-                () -> new Exception("Token is invalid yet.")
-        ));
+        userService.confirmUser(userConfirmationTokenService.findConfirmationTokenByToken(token)
+                .orElseThrow(() -> new Exception("Token is invalid yet.")));
+
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Location","http://localhost:8080/sign-in");
+        httpHeaders.add("Location", AFTER_TOKEN_CONFIRM_RELOCATION_URL);
+
         return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
+    }
+
+    @ExceptionHandler({DisabledException.class})
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public HashMap<String, String> handleUnverifiedUser(Exception e) {
+        return HandlerUtil.createResponseWithMessageAndError("User is unverified yet or disabled.", e);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public HashMap<String, String> handleIncorrectCredentials(Exception e) {
+        return HandlerUtil.createResponseWithMessageAndError("Incorrect username or password.", e);
+    }
+
+    @ExceptionHandler({UserAlreadyExistException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public HashMap<String, String> handleUserAlreadyExist(Exception e) {
+        return HandlerUtil.createResponseWithMessageAndError("User with this email already exist", e);
     }
 
 }

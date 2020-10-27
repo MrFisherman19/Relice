@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
-public class ForbiddenExceptionDTO {
+public class ForbiddenExceptionDto {
     LocalDateTime timestamp = LocalDateTime.now();
     HttpStatus httpStatus = HttpStatus.FORBIDDEN;
     String message = "Insufficient authority to perform this operation.";

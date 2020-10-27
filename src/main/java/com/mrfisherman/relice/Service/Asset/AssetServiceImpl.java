@@ -3,7 +3,6 @@ package com.mrfisherman.relice.Service.Asset;
 import com.mrfisherman.relice.Dto.AssetDto;
 import com.mrfisherman.relice.Entity.Asset.AssetEntity;
 import com.mrfisherman.relice.Repository.AssetRepository;
-import com.mrfisherman.relice.Repository.Projection.AssetConditionStateCount;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public AssetDto findAssetById(Long id) {
         AssetDto asset;
-        if (assetRepository.findById(id).isPresent()) {
+        if (assetRepository.existsById(id)) {
             asset = modelMapper.map(assetRepository.findById(id), AssetDto.class);
         } else {
             throw new EntityNotFoundException("No asset with id: " + id);
@@ -70,7 +69,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     public void updateAsset(AssetDto updatedAsset) {
-        if (updatedAsset != null) {
+        if (assetRepository.existsById(updatedAsset.getId())) {
             saveAsset(updatedAsset);
         } else {
             throw new IllegalArgumentException();

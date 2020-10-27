@@ -23,8 +23,6 @@ import java.util.stream.LongStream;
 @RequestMapping("/asset")
 public class AssetController {
 
-    private final static String ID_MUST_NOT_BE_NULL_MESSAGE = "Id must not be null!";
-
     private final AssetService assetService;
 
     @Autowired
@@ -74,7 +72,7 @@ public class AssetController {
     @PutMapping("/updateAssets")
     public ResponseEntity<?> updateAssets(@Valid @RequestBody List<AssetDto> updatedAsset) {
         updatedAsset.forEach(assetService::updateAsset);
-        return ResponseEntity.ok("Asset successfully updated!");
+        return ResponseEntity.ok("Assets successfully updated!");
     }
 
     @DeleteMapping(value = "/deleteAsset", params = "id")
@@ -84,8 +82,8 @@ public class AssetController {
     }
 
     @ExceptionHandler({IllegalArgumentException.class, ConstraintViolationException.class, EntityNotFoundException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = ID_MUST_NOT_BE_NULL_MESSAGE)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public HashMap<String, String> handleNullValueIdParsing(Exception e) {
-        return HandlerUtil.createResponseWithMessageAndError(ID_MUST_NOT_BE_NULL_MESSAGE, e);
+        return HandlerUtil.createResponseWithMessageAndError("Id of asset must not be null!", e);
     }
 }

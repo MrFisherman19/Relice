@@ -7,7 +7,6 @@ import com.mrfisherman.relice.Service.Office.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -35,44 +34,34 @@ public class OfficeController {
 
     @PostMapping("/createBuilding")
     public ResponseEntity<?> createBuilding(@RequestBody BuildingDto building) {
-        System.out.println(building);
 
         buildingService.saveBuilding(building);
+
         return ResponseEntity.ok("Building successfully created!");
     }
 
     @PostMapping("/createFloor")
     public ResponseEntity<?> createFloor(@RequestBody FloorDto floor) {
+
         floorService.saveFloor(floor);
+
         return ResponseEntity.ok("Floor successfully created!");
     }
 
     @PutMapping("/updateBuilding")
     public ResponseEntity<?> updateBuilding(@RequestBody BuildingDto building) {
-        System.out.println(building.getId());
-        BuildingDto buildingToUpdate = buildingService.findBuildingById(building.getId());
-        buildingToUpdate.setName(building.getName());
-        buildingToUpdate.setOwner(building.getOwner());
-        buildingToUpdate.setAddress(building.getAddress());
-        buildingToUpdate.setImageUrl(building.getImageUrl());
-        buildingService.saveBuilding(building);
+
+        buildingService.updateBuilding(building);
+
         return ResponseEntity.ok("Building successfully updated!");
     }
 
     @GetMapping("/getAllFloors")
-    public List<FloorDto> getAllFloors() {
-        return floorService.findAllFloors();
-    }
+    public List<FloorDto> getAllFloors() { return floorService.findAllFloors(); }
 
     @GetMapping(value = "/getFloor", params = "id")
-    public FloorDto getFloor(@RequestParam Long id) {
-        return floorService.findFloorById(id);
-    }
+    public FloorDto getFloor(@RequestParam Long id) { return floorService.findFloorById(id); }
 
     @GetMapping(value = "/getFloorsByBuilding", params = "id")
-    public List<FloorDto> getFloorByBuilding(@RequestParam Long id) {
-        return floorService.findAllFloorsByBuildingId(id);
-    }
-
-
+    public List<FloorDto> getFloorByBuilding(@RequestParam Long id) { return floorService.findAllFloorsByBuildingId(id); }
 }

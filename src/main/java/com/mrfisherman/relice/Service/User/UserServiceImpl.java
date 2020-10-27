@@ -1,18 +1,16 @@
 package com.mrfisherman.relice.Service.User;
 
-
 import com.mrfisherman.relice.Entity.User.User;
 import com.mrfisherman.relice.Entity.User.UserConfirmationToken;
+import com.mrfisherman.relice.Exception.UserAlreadyExistException;
 import com.mrfisherman.relice.Repository.UserRepository;
 import com.mrfisherman.relice.Service.Email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.text.MessageFormat;
 import java.util.Optional;
 
@@ -25,16 +23,12 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserConfirmationTokenService userConfirmationTokenService, EmailService emailService, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserConfirmationTokenService userConfirmationTokenService,
+                           EmailService emailService, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userConfirmationTokenService = userConfirmationTokenService;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
     }
 
     @Override
@@ -43,25 +37,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return findByEmail(email).orElseThrow(()->
-                new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", email)));
+    public UserDetails loadUserByUsername(String email){
+        return findByEmail(email).orElseThrow(() -> new BadCredentialsException("Incorrect username or password."));
     }
 
     @Override
-    public void signUpUser(User user) throws BadCredentialsException {
-        findByEmail(user.getEmail()).ifPresentOrElse(u ->
-        { throw new BadCredentialsException("User with email: " + u.getEmail() + " already exist."); },
-                () -> {
-                    final String encryptedPassword = passwordEncoder.encode(user.getPassword());
-                    user.setPassword(encryptedPassword);
-
-                    final User createdUser = userRepository.save(user);
-                    final UserConfirmationToken confirmationToken = new UserConfirmationToken(createdUser);
-
-                    userConfirmationTokenService.saveConfirmationToken(confirmationToken);
-                    sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
-        });
+    public void signUpUser(User user) {
+        findByEmail(user.getEmail()).ifPresentOrElse(this::throwUserAlreadyExistException, () -> signUp(user));
     }
 
     @Override
@@ -84,5 +66,30 @@ public class UserServiceImpl implements UserService {
         simpleMailMessage.setText("Thank you for sing up to the Relice app! \n\nPlease click the link below to activate" +
                 " your account: \n" + "http://localhost:8081/confirm?token=" + token + "\n\nBest reards, \nRelice team");
         emailService.sendEmail(simpleMailMessage);
+    }
+
+    private void throwUserAlreadyExistException(User u) {
+        throw new UserAlreadyExistException(MessageFormat.format("User with email: {0} already exist.", u.getEmail()));
+    }
+
+    private void signUp(User user) {
+        setUserPassword(user);
+
+        final User createdUser = userRepository.save(user);
+
+        final UserConfirmationToken confirmationToken = getUserConfirmationTokenForUser(createdUser);
+
+        sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+    }
+
+    private UserConfirmationToken getUserConfirmationTokenForUser(User createdUser) {
+        final UserConfirmationToken confirmationToken = new UserConfirmationToken(createdUser);
+        userConfirmationTokenService.saveConfirmationToken(confirmationToken);
+        return confirmationToken;
+    }
+
+    private void setUserPassword(User user) {
+        final String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
     }
 }

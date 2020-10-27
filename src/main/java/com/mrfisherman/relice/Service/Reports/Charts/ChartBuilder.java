@@ -22,7 +22,6 @@ public class ChartBuilder {
                 .queryParam("chdl", String.join("|", chart.getLabels()))
                 .queryParam("chs", chart.getWidth() + "x" + chart.getHeight());
 
-        System.out.println(builder.build().encode().toUri());
         HttpEntity<?> request = new HttpEntity<>(headers);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<byte[]> exchange = restTemplate.exchange(builder.build().encode().toUri(),

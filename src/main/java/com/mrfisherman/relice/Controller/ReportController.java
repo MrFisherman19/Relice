@@ -23,11 +23,24 @@ public class ReportController {
 
     @RequestMapping(value = "/getAssetsConditionReport", method = RequestMethod.GET)
     public ResponseEntity<?> getAssetConditionReport() throws IOException, DocumentException {
-    HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.add("Content-Disposition", "inline; filename=officeConditionReport.pdf");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(officeReport.getFinalReport());
     }
+
+    @RequestMapping(value = "/getAssetLocationReport", method = RequestMethod.GET)
+    public ResponseEntity<?> getAssetLocationReport() throws IOException, DocumentException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.add("Content-Disposition", "inline; filename=officeLocationReport.pdf");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(officeReport.getFinalReport());
+    }
+
+
+
 }

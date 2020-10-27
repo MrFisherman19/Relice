@@ -1,8 +1,5 @@
 package com.mrfisherman.relice.Service.Reports.Charts;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Map;
 
 public class PieChart<N extends Number> extends Chart {

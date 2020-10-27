@@ -5,7 +5,6 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
-import java.util.List;
 
 public interface PdfDocumentService {
 

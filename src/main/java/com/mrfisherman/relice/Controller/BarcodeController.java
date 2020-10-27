@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +36,7 @@ public class BarcodeController {
 
     @PostMapping(value = "/generateBarcodesBase64Jpg")
     public ResponseEntity<?> generateBarcodeBase64Image(@RequestBody BarcodeTextWrapper barcodeTexts) {
-        List<byte[]> list = barcodeService.generateListOfBarcodeCode128ByteArray(barcodeTexts.getBarcodeTexts())
+        List<byte[]> list = barcodeService.generateListOfBarcodeCode128Images(barcodeTexts.getBarcodeTexts())
                 .stream()
                 .map(Base64::encode)
                 .collect(Collectors.toList());
@@ -45,14 +44,14 @@ public class BarcodeController {
     }
 
     @PostMapping(value = "/generateBarcodesPdf", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<?> generateBarcodesPdf(@RequestBody BarcodeTextWrapper barcodeTexts) throws IOException, DocumentException {
+    public ResponseEntity<?> generateBarcodesPdf(@RequestBody BarcodeTextWrapper barcodeTexts) throws DocumentException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.add("Content-Disposition", "inline; filename=barcodes.pdf");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(pdfService.saveDataToPdf(
-                        barcodeService.generateListOfBarcodeCode128ByteArray(barcodeTexts.getBarcodeTexts())));
+                        barcodeService.generateListOfBarcodeCode128Images(barcodeTexts.getBarcodeTexts())));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -60,5 +59,4 @@ public class BarcodeController {
     public HashMap<String, String> handleWrongLengthType(Exception e) {
         return HandlerUtil.createResponseWithMessageAndError(WRONG_TYPE_LENGTH_MESSAGE, e);
     }
-
 }

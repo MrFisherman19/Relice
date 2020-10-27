@@ -8,9 +8,11 @@ import java.util.List;
 @Service
 public interface BuildingService {
 
-    void saveBuilding(BuildingDto buildingMinimalDTO);
+    void saveBuilding(BuildingDto buildingDto);
 
     void deleteBuilding(Long id);
+
+    void updateBuilding(BuildingDto buildingDto);
 
     BuildingDto findBuildingById(Long id);
 

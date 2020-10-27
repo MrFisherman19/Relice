@@ -5,10 +5,10 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.DocumentException;
 import com.mrfisherman.relice.Entity.Asset.AssetConditionState;
 import com.mrfisherman.relice.Repository.Projection.AssetConditionStateByAssetType;
-import com.mrfisherman.relice.Repository.Projection.AssetConditionStateCount;
 import com.mrfisherman.relice.Service.Asset.AssetStatsService;
 import com.mrfisherman.relice.Service.Document.PdfColor;
 import com.mrfisherman.relice.Service.Document.PdfDocumentService;
+import com.mrfisherman.relice.Service.Document.PdfFont;
 import com.mrfisherman.relice.Service.Reports.Charts.Chart;
 import com.mrfisherman.relice.Service.Reports.Charts.ChartBuilder;
 import com.mrfisherman.relice.Service.Reports.Charts.PieChart;
@@ -17,8 +17,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Service
 public class AssetsConditionReport implements OfficeReport {
@@ -42,21 +40,25 @@ public class AssetsConditionReport implements OfficeReport {
 
         document.add(createGraphImage(new PieChart<>(getAssetConditionStatsDataAsMap(), 999, 500)));
 
-        document.add(pdfDocumentService.createLabel(pdfDocumentService.createFont(FontFactory.TIMES_BOLD, 26, PdfColor.LABEL_GREEN.get()),
+        document.add(pdfDocumentService.createLabel(PdfFont.SUCCESS_LABEL_TEXT.getFont(),
                 String.format("Overall office health is %.1f%%", countOfficeHealthInPercent())));
 
-        document.add(pdfDocumentService.createLabel(pdfDocumentService.createFont(FontFactory.TIMES_BOLD, 16, PdfColor.BASIC_TEXT.get()),
+        document.add(pdfDocumentService.createLabel(PdfFont.STANDARD_LABEL_TEXT.getFont(),
                 "Type of assets by state"));
 
-        String[] headers = new String[]{"Type of asset", "Condition state", "Amount"};
-        PdfPTable table = pdfDocumentService.createTable(headers.length);
-        pdfDocumentService.addTableHeaders(table, headers, PdfColor.BASIC_HEADER.get());
-        addAssetConditionByAssetTypeRows(table, getAssetConditionStatsByAssetTypeData());
+        document.add(getAssetTypeCountTable());
 
-        document.add(table);
         document.close();
 
         return byteArrayOutputStream.toByteArray();
+    }
+
+    private PdfPTable getAssetTypeCountTable() {
+        String[] headers = new String[]{"Type of asset", "Condition state", "Amount"};
+        PdfPTable table = pdfDocumentService.createTable(headers.length);
+        pdfDocumentService.addTableHeaders(table, headers, PdfColor.BASIC_HEADER.get());
+        addAssetConditionByAssetTypeRows(table, assetStatsService.getAssetConditionStateCountByAssetType());
+        return table;
     }
 
     private double countOfficeHealthInPercent() {
@@ -83,15 +85,7 @@ public class AssetsConditionReport implements OfficeReport {
 
     private Map<String, Long> getAssetConditionStatsDataAsMap() {
         Map<String, Long> data = new HashMap<>();
-        getAssetConditionStateCount().forEach(x -> data.put(x.getAssetConditionState(), x.getTotalCount()));
+        assetStatsService.getAssetConditionStateCount().forEach(x -> data.put(x.getAssetConditionState(), x.getTotalCount()));
         return data;
-    }
-
-    private List<AssetConditionStateCount> getAssetConditionStateCount() {
-        return assetStatsService.getAssetConditionStateCount();
-    }
-
-    private List<AssetConditionStateByAssetType> getAssetConditionStatsByAssetTypeData() {
-        return assetStatsService.getAssetConditionStateCountByAssetType();
     }
 }

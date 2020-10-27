@@ -1,6 +1,5 @@
 package com.mrfisherman.relice.Service.Barcode;
 
-import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.springframework.stereotype.Service;
@@ -9,10 +8,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class BarcodeServiceImpl implements BarcodeService {
@@ -23,9 +20,11 @@ public class BarcodeServiceImpl implements BarcodeService {
     private static final String FORMAT_NAME = "jpg";
 
     @Override
-    public byte[] generateBarcodeCode128ByteArray(String barcodeText) {
+    public byte[] generateBarcodeCode128Image(String barcodeText) {
 
-        BitmapCanvasProvider canvas = new BitmapCanvasProvider(BARCODE_RESOLUTION, BufferedImage.TYPE_BYTE_BINARY, true, 0);
+        BitmapCanvasProvider canvas = new BitmapCanvasProvider(BARCODE_RESOLUTION, BufferedImage.TYPE_BYTE_BINARY,
+                true, 0);
+
         getCode128BarcodeGenerator().generateBarcode(canvas, barcodeText);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -47,7 +46,7 @@ public class BarcodeServiceImpl implements BarcodeService {
     }
 
     @Override
-    public List<byte[]> generateListOfBarcodeCode128ByteArray(List<String> barcodesTexts) {
-        return barcodesTexts.stream().map(this::generateBarcodeCode128ByteArray).collect(Collectors.toList());
+    public List<byte[]> generateListOfBarcodeCode128Images(List<String> barcodesTexts) {
+        return barcodesTexts.stream().map(this::generateBarcodeCode128Image).collect(Collectors.toList());
     }
 }

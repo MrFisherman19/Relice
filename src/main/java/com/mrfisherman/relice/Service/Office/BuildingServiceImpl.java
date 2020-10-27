@@ -38,6 +38,15 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
+    public void updateBuilding(BuildingDto building) {
+        if (building != null) {
+            saveBuilding(building);
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
     public void deleteBuilding(Long id) {
         buildingRepository.deleteById(id);
     }

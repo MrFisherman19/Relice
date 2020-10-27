@@ -29,7 +29,7 @@ public class Building extends NamedEntity {
     private String imageUrl;
 
     @JsonBackReference
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "building")
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "building")
     private List<Floor> floorList = new ArrayList<>();
 
     @Transient
