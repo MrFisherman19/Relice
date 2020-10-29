@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
@@ -15,7 +16,8 @@ public class FloorDto {
     private Long id;
 
     private String name;
-    private String description;
+
+    private String description = "";
     @NotNull
     private BuildingMinimalDto building;
 

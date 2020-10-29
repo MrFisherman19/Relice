@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class AssetEntity extends NamedEntity {
 
+    @Column(columnDefinition = "varchar(255) default ''")
     private String additionalNote;
 
     @NotNull

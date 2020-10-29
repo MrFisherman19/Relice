@@ -14,7 +14,7 @@ public class AssetDto {
 
     private String name;
 
-    private String additionalNote;
+    private String additionalNote = "";
 
     @NotNull
     @Setter(AccessLevel.NONE)

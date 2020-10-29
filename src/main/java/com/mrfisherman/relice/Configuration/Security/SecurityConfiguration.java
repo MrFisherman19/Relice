@@ -46,6 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().sameOrigin();
         http.csrf().disable().cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/asset/**").hasAnyRole("ADMIN", "USER")
@@ -54,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE,"/asset/**").hasAnyRole("ADMIN")
                 .antMatchers("/userDetails").hasRole("ADMIN")
                 .antMatchers("/sign-in","/sign-up","/confirm/**").permitAll()
+                .antMatchers("/console/**").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
