@@ -17,7 +17,7 @@ public class FloorDto {
 
     private String name;
 
-    private String description = "";
+    private String description;
     @NotNull
     private BuildingMinimalDto building;
 

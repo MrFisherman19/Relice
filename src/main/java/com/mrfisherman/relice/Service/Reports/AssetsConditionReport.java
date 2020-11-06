@@ -63,7 +63,10 @@ public class AssetsConditionReport implements OfficeReport {
 
     private double countOfficeHealthInPercent() {
         Map<String, Long> stats = getAssetConditionStatsDataAsMap();
-        return (double) stats.get(AssetConditionState.GOOD_CONDITION.name())
+
+        Optional<Long> optGoodCondition = Optional.ofNullable(stats.get(AssetConditionState.GOOD_CONDITION.name()));
+
+        return (double) optGoodCondition.orElse(0L)
                 / (double) stats.values().stream().mapToLong(x->x).sum() * 100;
     }
 

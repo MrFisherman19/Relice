@@ -1,10 +1,13 @@
 
 package com.mrfisherman.relice.Dto;
 
+import com.mrfisherman.relice.Entity.Property.Coordinates;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -15,18 +18,12 @@ import javax.validation.constraints.NotNull;
 public class LocalizationDto {
 
     @NotNull
-    private FloorWithoutBuildingDto floor;
+    private FloorDto floor;
 
-    @Min(0)
-    @Max(999)
-    private int xAxis;
+    private FloorDto floor_planned;
 
-    @Min(0)
-    @Max(1199)
-    private int yAxis;
+    private Coordinates coordinates;
 
-    @Min(0)
-    @Max(999)
-    private int zAxis;
+    private Coordinates coordinates_planned;
 
 }

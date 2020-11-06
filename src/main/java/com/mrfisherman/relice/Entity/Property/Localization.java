@@ -17,20 +17,19 @@ import javax.validation.constraints.Min;
 @Setter
 public class Localization {
 
-    @OneToOne(targetEntity = Floor.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Floor.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "FLOOR_ID")
     private Floor floor;
 
-    @Min(0)
-    @Max(1000)
-    private int xAxis;
+    @Embedded
+    private Coordinates coordinates;
 
-    @Min(0)
-    @Max(2400)
-    private int yAxis;
-
-    @Min(0)
-    @Max(999)
-    private int zAxis;
+    @AttributeOverrides({
+            @AttributeOverride(name = "xAxis", column = @Column(name = "xAxis_planned")),
+            @AttributeOverride(name = "yAxis", column = @Column(name = "yAxis_planned")),
+            @AttributeOverride(name = "zAxis", column = @Column(name = "zAxis_planned"))
+    })
+    @Embedded
+    private Coordinates coordinates_planned;
 
 }

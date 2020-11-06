@@ -1,7 +1,7 @@
 package com.mrfisherman.relice.Service.Asset;
 
 import com.mrfisherman.relice.Dto.AssetDto;
-import com.mrfisherman.relice.Entity.Asset.AssetEntity;
+import com.mrfisherman.relice.Entity.Asset.Asset;
 import com.mrfisherman.relice.Repository.AssetRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -25,14 +25,14 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Long saveAsset(AssetDto asset) {
-        return assetRepository.save(modelMapper.map(asset, AssetEntity.class)).getId();
+        return assetRepository.save(modelMapper.map(asset, Asset.class)).getId();
     }
 
     @Override
     public List<Long> saveAssets(List<AssetDto> assets) {
         return assets
                 .stream()
-                .map(x -> assetRepository.save(modelMapper.map(x, AssetEntity.class)).getId())
+                .map(x -> assetRepository.save(modelMapper.map(x, Asset.class)).getId())
                 .collect(Collectors.toList());
     }
 
@@ -58,14 +58,14 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Set<AssetDto> findAssetsByFloorId(Long id) {
-        Set<AssetEntity> assets = assetRepository.findByFloorId(id);
-        return modelMapper.map(assets, new TypeToken<Set<AssetEntity>>() {}.getType());
+        Set<Asset> assets = assetRepository.findByFloorId(id);
+        return modelMapper.map(assets, new TypeToken<Set<AssetDto>>() {}.getType());
     }
 
     @Override
     public List<AssetDto> findAllAssets() {
-        List<AssetEntity> assets = assetRepository.findAllWithoutNPlusOne();
-        return modelMapper.map(assets, new TypeToken<List<AssetEntity>>() {}.getType());
+        List<Asset> assets = assetRepository.findAllWithoutNPlusOne();
+        return modelMapper.map(assets, new TypeToken<List<AssetDto>>() {}.getType());
     }
 
     public void updateAsset(AssetDto updatedAsset) {

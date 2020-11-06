@@ -57,12 +57,12 @@ public class ReliceApplication {
 //            AssetType[] assetTypes = AssetType.values();
 //            String[] additionalNotes = {"Nice desk", "Not nice desk", "Corner desk", "Oh wow!"};
 //
-            Address address = new Address();
-            address.setCity("Kraków");
-            address.setCountry("Poland");
-            address.setNumberOnStreet("7i");
-            address.setStreetName("Puszkarska");
-            address.setZipCode("30-644");
+//            Address address = new Address();
+//            address.setCity("Kraków");
+//            address.setCountry("Poland");
+//            address.setNumberOnStreet("7i");
+//            address.setStreetName("Puszkarska");
+//            address.setZipCode("30-644");
 //
 //            Address address2 = new Address();
 //            address2.setCity("Kraków");
@@ -71,18 +71,11 @@ public class ReliceApplication {
 //            address2.setStreetName("Wadowicka");
 //            address2.setZipCode("30-744");
 //
-//            if(buildingRepository.existsById(33L)) {
-//                buildingRepository.deleteById(33L);
-//            }
-//            if(buildingRepository.existsById(34L)) {
-//                buildingRepository.deleteById(34L);
-//            }
-
-            Building building = new Building();
-            building.setAddress(address);
-            building.setOwner("Bonarka offices");
-            building.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lufthansa_Global_Business_Services_Krak%C3%B3w_Bonarka.jpg/800px-Lufthansa_Global_Business_Services_Krak%C3%B3w_Bonarka.jpg");
-            building.setName("Building D");
+//            Building building = new Building();
+//            building.setAddress(address);
+//            building.setOwner("Bonarka offices");
+//            building.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lufthansa_Global_Business_Services_Krak%C3%B3w_Bonarka.jpg/800px-Lufthansa_Global_Business_Services_Krak%C3%B3w_Bonarka.jpg");
+//            building.setName("Building D");
 //
 //            Building building2 = new Building();
 //            building2.setAddress(address);
@@ -91,16 +84,16 @@ public class ReliceApplication {
 //            building2.setName("Building Buma");
 //
 //            buildingRepository.save(building);
+//            buildingRepository.save(building2);
 //
 //            for (int i = 1; i < 7; i++) {
 //
 //                Floor floor = new Floor();
-//                floor.setName("Floor " + 2);
+//                floor.setName("Floor " + i);
 //                floor.setBuilding(building);
 //                floorRepository.save(floor);
-
-//                for (int j = 1; j < 100; j++) {
 //
+//                for (int j = 1; j < 0; j++) {
 //                    AssetEntity assetEntity = new AssetEntity();
 //                    assetEntity.setAssetType(assetTypes[(int) (Math.random() * assetTypes.length)]);
 //                    AssetMapDetails assetMapDetails = assetEntity.getAssetType().getAssetMapDetails();
@@ -108,11 +101,10 @@ public class ReliceApplication {
 //                    assetEntity.setLocalization(new Localization(floor, randomIntNumber(1000,0), randomIntNumber(2400,0), assetMapDetails.getDimensions().getDepth()));
 //                    assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
 //                    assetEntity.setAssetLocationState(furnitureLocationStates[(int) (Math.random() * furnitureLocationStates.length)]);
-//                    assetEntity.setAdditionalNote(additionalNotes[(int) (Math.random() * additionalNotes.length)]);
 //                    assetEntity.setAssetMapDetails(assetMapDetails);
 //                    assetRepository.save(assetEntity);
 //                }
-            //}
+//            }
 //
 //            User user = new User();
 //            user.setId(1L);

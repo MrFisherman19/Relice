@@ -15,6 +15,6 @@ public class BuildingMinimalDto {
     private Long id;
 
     @NotNull
-    private String buildingName;
+    private String name;
 
 }

@@ -2,7 +2,6 @@ package com.mrfisherman.relice.Entity.Asset;
 
 import com.mrfisherman.relice.Entity.NamedEntity;
 import com.mrfisherman.relice.Entity.Property.Localization;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +12,9 @@ import javax.validation.constraints.NotNull;
 @Inheritance
 @Getter
 @Setter
-public class AssetEntity extends NamedEntity {
+public class Asset extends NamedEntity {
 
-    @Column(columnDefinition = "varchar(255) default ''")
-    private String additionalNote;
+    private String additionalNote = "";
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -30,18 +28,11 @@ public class AssetEntity extends NamedEntity {
     @Enumerated(EnumType.STRING)
     private AssetType assetType;
 
-    @Getter(AccessLevel.NONE)
-    @Transient
-    private String typeShortcut;
-
     @Embedded
     private Localization localization;
 
     @Embedded
     private AssetMapDetails assetMapDetails;
 
-    public String getTypeShortcut() {
-        return assetType.getShortcut();
-    }
 }
 
