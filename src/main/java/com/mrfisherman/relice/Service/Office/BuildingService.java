@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface BuildingService {
 
-    void saveBuilding(BuildingDto buildingDto);
+    Long saveBuilding(BuildingDto buildingDto);
 
     void deleteBuilding(Long id);
 

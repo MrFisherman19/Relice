@@ -28,7 +28,7 @@ public class AssetDto {
     @Setter(AccessLevel.NONE)
     private String assetType;
 
-    private String typeShortcut;
+    private String barcode;
 
     private LocalizationDto localization;
 

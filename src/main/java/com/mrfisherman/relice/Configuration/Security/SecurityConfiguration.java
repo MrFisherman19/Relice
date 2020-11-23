@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/asset/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.PUT,"/asset/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE,"/asset/**").hasAnyRole("ADMIN")
-                .antMatchers("/userDetails").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/sign-in","/sign-up","/confirm/**").permitAll()
                 .antMatchers("/console/**").permitAll()
                 .anyRequest().authenticated().and()

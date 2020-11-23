@@ -2,21 +2,21 @@ package com.mrfisherman.relice.Controller;
 
 import com.mrfisherman.relice.Controller.ExceptionHandler.HandlerUtil;
 import com.mrfisherman.relice.Dto.AssetDto;
+import com.mrfisherman.relice.Dto.Wrapper.ListOfIdsWrapper;
+import com.mrfisherman.relice.Entity.Asset.AssetLocationState;
 import com.mrfisherman.relice.Service.Asset.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 @RestController
@@ -69,16 +69,39 @@ public class AssetController {
         return ResponseEntity.ok("Asset successfully updated!");
     }
 
+    @PutMapping("/addConnection")
+    public ResponseEntity<?> addConnection(@Valid @RequestBody AssetDto updatedAsset) {
+        updatedAsset.setAssetLocationState(AssetLocationState.TO_RELOCATION.name());
+        assetService.updateAsset(updatedAsset);
+        return ResponseEntity.ok("Connection successfully added!");
+    }
+
     @PutMapping("/updateAssets")
     public ResponseEntity<?> updateAssets(@Valid @RequestBody List<AssetDto> updatedAsset) {
         updatedAsset.forEach(assetService::updateAsset);
         return ResponseEntity.ok("Assets successfully updated!");
     }
 
+    @PatchMapping(value = "/relocateAssets", consumes = "application/json")
+    public ResponseEntity<?> relocateAssets(@RequestBody ListOfIdsWrapper listOfIds) {
+        for (Long id : listOfIds.getListOfIds()) {
+            AssetDto asset = assetService.findAssetById(id);
+            asset.setAssetLocationState(AssetLocationState.RIGHT_PLACE.name());
+            assetService.updateAsset(asset);
+        }
+        return ResponseEntity.ok("Assets successfully relocated!");
+    }
+
     @DeleteMapping(value = "/deleteAsset", params = "id")
     public ResponseEntity<?> deleteAsset(Long id) {
         assetService.deleteAsset(id);
         return ResponseEntity.ok("Asset successfully deleted!");
+    }
+
+    @PostMapping(value = "/deleteAssets", consumes = "application/json")
+    public ResponseEntity<?> deleteAssets(@RequestBody ListOfIdsWrapper listOfIds) {
+        listOfIds.getListOfIds().forEach(assetService::deleteAsset);
+        return ResponseEntity.ok("Assets successfully deleted!");
     }
 
     @ExceptionHandler({IllegalArgumentException.class, ConstraintViolationException.class, EntityNotFoundException.class})

@@ -5,6 +5,7 @@ import com.mrfisherman.relice.Entity.Asset.*;
 import com.mrfisherman.relice.Entity.Property.Address;
 import com.mrfisherman.relice.Entity.Building.Building;
 import com.mrfisherman.relice.Entity.Building.Floor;
+import com.mrfisherman.relice.Entity.Property.Coordinates;
 import com.mrfisherman.relice.Entity.Property.Localization;
 import com.mrfisherman.relice.Entity.User.User;
 import com.mrfisherman.relice.Entity.User.UserRole;
@@ -92,18 +93,6 @@ public class ReliceApplication {
 //                floor.setName("Floor " + i);
 //                floor.setBuilding(building);
 //                floorRepository.save(floor);
-//
-//                for (int j = 1; j < 0; j++) {
-//                    AssetEntity assetEntity = new AssetEntity();
-//                    assetEntity.setAssetType(assetTypes[(int) (Math.random() * assetTypes.length)]);
-//                    AssetMapDetails assetMapDetails = assetEntity.getAssetType().getAssetMapDetails();
-//                    assetEntity.setName("Asset " + j);
-//                    assetEntity.setLocalization(new Localization(floor, randomIntNumber(1000,0), randomIntNumber(2400,0), assetMapDetails.getDimensions().getDepth()));
-//                    assetEntity.setAssetConditionState(furnitureConditionStates[(int) (Math.random() * furnitureConditionStates.length)]);
-//                    assetEntity.setAssetLocationState(furnitureLocationStates[(int) (Math.random() * furnitureLocationStates.length)]);
-//                    assetEntity.setAssetMapDetails(assetMapDetails);
-//                    assetRepository.save(assetEntity);
-//                }
 //            }
 //
 //            User user = new User();

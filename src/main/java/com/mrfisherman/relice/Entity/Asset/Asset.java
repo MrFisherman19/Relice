@@ -2,6 +2,7 @@ package com.mrfisherman.relice.Entity.Asset;
 
 import com.mrfisherman.relice.Entity.NamedEntity;
 import com.mrfisherman.relice.Entity.Property.Localization;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,11 +29,18 @@ public class Asset extends NamedEntity {
     @Enumerated(EnumType.STRING)
     private AssetType assetType;
 
+    @Transient
+    @Getter(AccessLevel.NONE)
+    private String barcode;
+
     @Embedded
     private Localization localization;
 
     @Embedded
     private AssetMapDetails assetMapDetails;
 
+    public String getBarcode() {
+        return String.format("%s-%d", getAssetType().name().substring(0,3), getId());
+    }
 }
 

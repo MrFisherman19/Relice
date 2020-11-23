@@ -5,11 +5,6 @@ import com.mrfisherman.relice.Entity.Property.Coordinates;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
@@ -22,8 +17,12 @@ public class LocalizationDto {
 
     private FloorDto floor_planned;
 
+    private FloorDto floor_previous;
+
     private Coordinates coordinates;
 
     private Coordinates coordinates_planned;
+
+    private Coordinates coordinates_previous;
 
 }

@@ -15,8 +15,8 @@ public class BarcodePdfImpl implements PdfService {
 
     private static final int PDF_TABLE_COLUMNS = 5;
     private static final int PDF_CELL_IMAGE_SCALE = 18;
-    private static final int CEL_PADDING_TOP = 12;
-    private static final int CEL_PADDING_BOTTOM = 12;
+    private static final float CEL_PADDING_TOP = 6.4f;
+    private static final int CEL_PADDING_BOTTOM = 6;
     private static final int TABLE_WIDTH_PERCENTAGE = 104;
     private static final int BORDER = Rectangle.NO_BORDER;
     private static final int HORIZONTAL_ALIGN = Element.ALIGN_CENTER;

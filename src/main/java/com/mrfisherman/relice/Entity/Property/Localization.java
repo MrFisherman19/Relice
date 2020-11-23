@@ -21,6 +21,14 @@ public class Localization {
     @JoinColumn(name = "FLOOR_ID")
     private Floor floor;
 
+    @ManyToOne(targetEntity = Floor.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "FLOOR_PLANNED_ID")
+    private Floor floor_planned;
+
+    @ManyToOne(targetEntity = Floor.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "FLOOR_PREVIOUS_ID")
+    private Floor floor_previous;
+
     @Embedded
     private Coordinates coordinates;
 
@@ -31,5 +39,14 @@ public class Localization {
     })
     @Embedded
     private Coordinates coordinates_planned;
+
+    @AttributeOverrides({
+            @AttributeOverride(name = "xAxis", column = @Column(name = "xAxis_previous")),
+            @AttributeOverride(name = "yAxis", column = @Column(name = "yAxis_previous")),
+            @AttributeOverride(name = "zAxis", column = @Column(name = "zAxis_previous"))
+    })
+    @Embedded
+    private Coordinates coordinates_previous;
+
 
 }

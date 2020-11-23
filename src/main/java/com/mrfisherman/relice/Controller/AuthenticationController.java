@@ -6,7 +6,6 @@ import com.mrfisherman.relice.Dto.Wrapper.LoginRequest;
 import com.mrfisherman.relice.Dto.Wrapper.LoginResponse;
 import com.mrfisherman.relice.Dto.Wrapper.RegisterRequest;
 import com.mrfisherman.relice.Entity.User.User;
-import com.mrfisherman.relice.Entity.User.UserConfirmationToken;
 import com.mrfisherman.relice.Exception.UserAlreadyExistException;
 import com.mrfisherman.relice.Service.User.UserConfirmationTokenService;
 import com.mrfisherman.relice.Service.User.UserService;
@@ -21,8 +20,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
 
 @RestController

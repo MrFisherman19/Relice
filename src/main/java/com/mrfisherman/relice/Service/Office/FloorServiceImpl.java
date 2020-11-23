@@ -22,13 +22,17 @@ public class FloorServiceImpl implements FloorService {
     }
 
     @Override
-    public void saveFloor(FloorDto floor) {
-        floorRepository.save(modelMapper.map(floor, Floor.class));
+    public Long saveFloor(FloorDto floor) {
+        return floorRepository.save(modelMapper.map(floor, Floor.class)).getId();
     }
 
     @Override
     public void deleteFloor(Long id) {
-        floorRepository.deleteById(id);
+        if (floorRepository.existsById(id)) {
+            floorRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("No floor with id: " + id);
+        }
     }
 
     @Override

@@ -1,12 +1,19 @@
 package com.mrfisherman.relice.Controller;
 
+import com.mrfisherman.relice.Controller.ExceptionHandler.HandlerUtil;
 import com.mrfisherman.relice.Dto.BuildingDto;
 import com.mrfisherman.relice.Dto.FloorDto;
 import com.mrfisherman.relice.Service.Office.BuildingService;
 import com.mrfisherman.relice.Service.Office.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -35,17 +42,29 @@ public class OfficeController {
     @PostMapping("/createBuilding")
     public ResponseEntity<?> createBuilding(@RequestBody BuildingDto building) {
 
-        buildingService.saveBuilding(building);
+        Long newBuildingId = buildingService.saveBuilding(building);
 
-        return ResponseEntity.ok("Building successfully created!");
+        return ResponseEntity.ok().body(newBuildingId);
+    }
+
+    @DeleteMapping(value = "/deleteBuilding", params = "id")
+    public ResponseEntity<?> deleteBuilding(Long id) {
+        buildingService.deleteBuilding(id);
+        return ResponseEntity.ok("Building successfully deleted!");
+    }
+
+    @DeleteMapping(value = "/deleteFloor", params = "id")
+    public ResponseEntity<?> deleteFloor(Long id) {
+        floorService.deleteFloor(id);
+        return ResponseEntity.ok("Floor successfully deleted!");
     }
 
     @PostMapping("/createFloor")
     public ResponseEntity<?> createFloor(@RequestBody FloorDto floor) {
 
-        floorService.saveFloor(floor);
+        Long newFloorId = floorService.saveFloor(floor);
 
-        return ResponseEntity.ok("Floor successfully created!");
+        return ResponseEntity.ok().body(newFloorId);
     }
 
     @PutMapping("/updateBuilding")
@@ -64,4 +83,10 @@ public class OfficeController {
 
     @GetMapping(value = "/getFloorsByBuilding", params = "id")
     public List<FloorDto> getFloorByBuilding(@RequestParam Long id) { return floorService.findAllFloorsByBuildingId(id); }
+
+    @ExceptionHandler({org.hibernate.exception.ConstraintViolationException.class})
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public HashMap<String, String> handleNullValueIdParsing(Exception e) {
+        return HandlerUtil.createResponseWithMessageAndError("To remove an item, remove all of its children and references to this item first.", e);
+    }
 }

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class BarcodeServiceImpl implements BarcodeService {
 
     private static final int BARCODE_RESOLUTION = 512;
-    private static final int BARCODE_HEIGHT = 8;
+    private static final double BARCODE_HEIGHT = 10.3;
     private static final int BARCODE_FONT_SIZE = 2;
     private static final String FORMAT_NAME = "jpg";
 

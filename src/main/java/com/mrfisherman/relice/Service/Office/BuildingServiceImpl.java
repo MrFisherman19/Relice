@@ -33,8 +33,8 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public void saveBuilding(BuildingDto building) {
-        buildingRepository.save(modelMapper.map(building, Building.class));
+    public Long saveBuilding(BuildingDto building) {
+        return buildingRepository.save(modelMapper.map(building, Building.class)).getId();
     }
 
     @Override
@@ -48,7 +48,11 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public void deleteBuilding(Long id) {
-        buildingRepository.deleteById(id);
+        if (buildingRepository.existsById(id)) {
+            buildingRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("No building with id: " + id);
+        }
     }
 
     @Override
