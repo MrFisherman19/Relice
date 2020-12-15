@@ -13,8 +13,6 @@ import java.util.Set;
 @Service
 public interface UserService extends UserDetailsService {
 
-    Optional<User> findByEmail(String email);
-
     void signUpUser(User user);
 
     void addUser(User user);
@@ -26,6 +24,8 @@ public interface UserService extends UserDetailsService {
     void confirmUser(UserConfirmationToken userConfirmationToken);
 
     void sendConfirmationEmail(String userEmail, String token);
+
+    Optional<User> findByEmail(String email);
 
     MinimalUserDto loadUserWithoutPasswordByUsername(String name);
 

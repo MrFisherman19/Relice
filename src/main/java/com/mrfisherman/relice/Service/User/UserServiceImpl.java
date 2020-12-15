@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<MinimalUserDto> getUsersByGroup(Authentication authentication, Long groupId) {
 
-        User currentUser = (User) loadUserByUsername(authentication.getName());
+        final User currentUser = (User) loadUserByUsername(authentication.getName());
 
         if (currentUser.getUserRole().equals(UserRole.ROLE_ADMIN)) {
             if (isUserInGroup(currentUser, groupId)) {
@@ -82,16 +82,17 @@ public class UserServiceImpl implements UserService {
     public void addUser(User user) {
         findByEmail(user.getEmail()).ifPresentOrElse(this::throwUserAlreadyExistException, () ->  {
             setUserPassword(user);
-            user.setGroup(userGroupService.findById(user.getGroup().getId()));
+            user.setGroup(userGroupService.findById(user.getGroup().getId()).orElseThrow(
+                    () -> new EntityNotFoundException("No group with given id")));
             userRepository.save(user);
         });
     }
 
     @Override
     public void deleteUserByEmail(String email, Authentication authentication) {
-        User currentUser = (User) loadUserByUsername(authentication.getName());
+        final User currentUser = (User) loadUserByUsername(authentication.getName());
 
-        User userToDelete = findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User with email " + email + " does not exist!"));
+        final User userToDelete = findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User with email " + email + " does not exist!"));
 
         if (isUserInGroup(userToDelete, currentUser.getGroup().getId())) {
             userRepository.delete(userToDelete);
@@ -149,7 +150,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserGroup createNewGroup() {
-        UserGroup userGroup = new UserGroup();
+        final UserGroup userGroup = new UserGroup();
         userGroupService.save(userGroup);
         return userGroup;
     }

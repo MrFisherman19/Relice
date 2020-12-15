@@ -15,8 +15,29 @@
     <description>Office relocation app for LGBS Cracow.</description>
     <properties>
         <java.version>11</java.version>
+        <mysql-connector-java.version>8.0.21</mysql-connector-java.version>
+        <modelmapper.version>2.3.0</modelmapper.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <itextpdf.version>5.5.13</itextpdf.version>
+        <lombok.version>1.18.12</lombok.version>
+        <spring-boot-starter-validation.version>2.3.4.RELEASE</spring-boot-starter-validation.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <barcode4j.version>2.1</barcode4j.version>
+        <spring-boot-starter-json.version>2.0.0.RELEASE</spring-boot-starter-json.version>
+        <mssql-jdbc.version>8.4.1.jre8</mssql-jdbc.version>
+        <springfox-swagger2.version>3.0.0</springfox-swagger2.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>${mssql-jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger2.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
@@ -36,12 +57,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
-            <version>2.0.0.RELEASE</version>
+            <version>${spring-boot-starter-json.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.barcode4j</groupId>
             <artifactId>barcode4j</artifactId>
-            <version>2.1</version>
+            <version>${barcode4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,7 +89,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.21</version>
+            <version>${mysql-connector-java.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -77,7 +98,7 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>2.3.0</version>
+            <version>${modelmapper.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -87,7 +108,7 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jjwt.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -97,18 +118,18 @@
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itextpdf</artifactId>
-            <version>5.5.13</version>
+            <version>${itextpdf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-            <version>2.3.4.RELEASE</version>
+            <version>${spring-boot-starter-validation.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -116,6 +137,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.mrfisherman.relice.ReliceApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

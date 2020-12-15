@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
@@ -39,11 +40,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public void updateBuilding(BuildingDto building) {
-        if (building != null) {
-            saveBuilding(building);
-        } else {
-            throw new IllegalArgumentException();
-        }
+        Optional.ofNullable(building).ifPresentOrElse(this::saveBuilding, () -> {throw new IllegalArgumentException();});
     }
 
     @Override

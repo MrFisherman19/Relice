@@ -18,6 +18,15 @@ public class StandardPdfDocument implements PdfDocumentService {
 
     public Paragraph createLabel(Font font, String text) {
         Chunk chunk = new Chunk(text, font);
+        return createParagraph(chunk);
+    }
+
+    public Paragraph createLabel(String text) {
+        Chunk chunk = new Chunk(text, PdfFont.STANDARD_LABEL_TEXT.getFont());
+        return createParagraph(chunk);
+    }
+
+    private Paragraph createParagraph(Chunk chunk) {
         Paragraph paragraph = new Paragraph(chunk);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         return paragraph;
@@ -45,10 +54,7 @@ public class StandardPdfDocument implements PdfDocumentService {
     }
 
     private Paragraph createHeaderParagraph(String headerName) {
-        Chunk chunk = new Chunk(headerName);
-        Paragraph paragraph = new Paragraph(chunk);
-        paragraph.setAlignment(Element.ALIGN_CENTER);
-        chunk.setFont(PdfFont.HEADER_TEXT.getFont());
-        return paragraph;
+        Chunk chunk = new Chunk(headerName, PdfFont.HEADER_TEXT.getFont());
+        return createParagraph(chunk);
     }
 }

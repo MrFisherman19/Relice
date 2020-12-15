@@ -19,7 +19,10 @@ public interface AssetService {
 
     List<AssetDto> findAllAssets();
 
+    List<AssetDto> findAssetsToRelocation();
+
     Set<AssetDto> findAssetsByFloorId(Long id);
 
     List<Long> saveAssets(List<AssetDto> assets);
+
 }

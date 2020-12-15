@@ -75,6 +75,14 @@ public class OfficeController {
         return ResponseEntity.ok("Building successfully updated!");
     }
 
+    @PutMapping("/updateFloor")
+    public ResponseEntity<?> updateFloor(@RequestBody FloorDto floor) {
+
+        floorService.updateFloor(floor);
+
+        return ResponseEntity.ok("Floor successfully updated!");
+    }
+
     @GetMapping("/getAllFloors")
     public List<FloorDto> getAllFloors() { return floorService.findAllFloors(); }
 

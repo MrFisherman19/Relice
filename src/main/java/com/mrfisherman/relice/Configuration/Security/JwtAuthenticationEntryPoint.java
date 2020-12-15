@@ -23,9 +23,18 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         Exception exception = (Exception) httpServletRequest.getAttribute("exception");
+        String message = getExceptionMessage(authException, exception);
 
+        writeToOutputStream(httpServletResponse, message);
+    }
+
+    private void writeToOutputStream(HttpServletResponse httpServletResponse, String message) throws IOException {
+        byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("error", message));
+        httpServletResponse.getOutputStream().write(body);
+    }
+
+    private String getExceptionMessage(AuthenticationException authException, Exception exception) {
         String message;
-
         if (exception != null) {
             if (exception.getCause() != null) {
                 message = exception.getCause().toString() + " " + exception.getMessage();
@@ -39,12 +48,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 message = authException.getMessage();
             }
         }
-        writeToOutputStream(httpServletResponse, message);
+        return message;
     }
-
-    private void writeToOutputStream(HttpServletResponse httpServletResponse, String message) throws IOException {
-        byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("error", message));
-        httpServletResponse.getOutputStream().write(body);
-    }
-
 }

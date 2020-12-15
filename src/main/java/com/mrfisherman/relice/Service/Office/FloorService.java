@@ -8,9 +8,11 @@ import java.util.List;
 @Service
 public interface FloorService {
 
-    Long saveFloor(FloorDto floorDTO);
+    Long saveFloor(FloorDto floorDto);
 
     void deleteFloor(Long id);
+
+    void updateFloor(FloorDto floorDto);
 
     FloorDto findFloorById(Long id);
 

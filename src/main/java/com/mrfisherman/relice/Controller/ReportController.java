@@ -2,6 +2,8 @@ package com.mrfisherman.relice.Controller;
 
 import com.itextpdf.text.DocumentException;
 import com.mrfisherman.relice.Service.Reports.OfficeReport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +17,19 @@ import java.io.IOException;
 @RequestMapping("/report")
 public class ReportController {
 
-    private final OfficeReport officeReport;
+    @Qualifier("AssetConditionReport")
+    private final OfficeReport assetsConditionReport;
 
-    public ReportController(OfficeReport officeReport) {
-        this.officeReport = officeReport;
+    @Qualifier("AssetLocationReport")
+    private final OfficeReport assetsLocationReport;
+
+    @Qualifier("FixedAssetInventoryReport")
+    private final OfficeReport fixedAssetsInventoryReport;
+
+    public ReportController(OfficeReport assetsConditionReport, OfficeReport assetsLocationReport, OfficeReport fixedAssetsInventoryReport) {
+        this.assetsConditionReport = assetsConditionReport;
+        this.assetsLocationReport = assetsLocationReport;
+        this.fixedAssetsInventoryReport = fixedAssetsInventoryReport;
     }
 
     @RequestMapping(value = "/getAssetsConditionReport", method = RequestMethod.GET)
@@ -28,17 +39,17 @@ public class ReportController {
         headers.add("Content-Disposition", "inline; filename=officeConditionReport.pdf");
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(officeReport.getFinalReport());
+                .body(assetsConditionReport.getFinalReport());
     }
 
-    @RequestMapping(value = "/getAssetLocationReport", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAssetsLocationReport", method = RequestMethod.GET)
     public ResponseEntity<?> getAssetLocationReport() throws IOException, DocumentException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.add("Content-Disposition", "inline; filename=officeLocationReport.pdf");
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(officeReport.getFinalReport());
+                .body(assetsLocationReport.getFinalReport());
     }
 
 

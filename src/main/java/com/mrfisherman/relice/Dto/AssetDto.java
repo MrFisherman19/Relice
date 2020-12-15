@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class AssetDto {
 
     private Long id;

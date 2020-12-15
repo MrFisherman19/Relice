@@ -54,6 +54,12 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public List<AssetDto> findAssetsToRelocation() {
+        List<Asset> assetsToRelocation =  assetRepository.findAssetsByAssetLocationState(AssetLocationState.TO_RELOCATION);
+        return modelMapper.map(assetsToRelocation, new TypeToken<List<AssetDto>>() {}.getType());
+    }
+
+    @Override
     public Set<AssetDto> findAssetsByFloorId(Long id) {
         Set<Asset> assets = assetRepository.findByFloorId(id);
         return modelMapper.map(assets, new TypeToken<Set<AssetDto>>() {}.getType());

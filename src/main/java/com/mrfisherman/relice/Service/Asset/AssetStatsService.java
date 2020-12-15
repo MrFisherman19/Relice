@@ -9,4 +9,5 @@ public interface AssetStatsService {
     List<AssetConditionStateCount> getAssetConditionStateCount();
 
     List<AssetConditionStateByAssetType> getAssetConditionStateCountByAssetType();
+
 }

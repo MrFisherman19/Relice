@@ -5,6 +5,7 @@ import com.mrfisherman.relice.Repository.UserGroupRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class UserGroupServiceImpl implements UserGroupService {
@@ -21,7 +22,7 @@ public class UserGroupServiceImpl implements UserGroupService {
     }
 
     @Override
-    public UserGroup findById(Long id) {
-        return groupRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public Optional<UserGroup> findById(Long id) {
+        return groupRepository.findById(id);
     }
 }

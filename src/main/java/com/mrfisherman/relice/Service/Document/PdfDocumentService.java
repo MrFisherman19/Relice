@@ -10,6 +10,8 @@ public interface PdfDocumentService {
 
     PdfPTable createTable(int columns);
 
+    Paragraph createLabel(String text);
+
     Paragraph createLabel(Font font, String text);
 
     void addTableHeaders(PdfPTable table, String[] headersNames, BaseColor headerColor);

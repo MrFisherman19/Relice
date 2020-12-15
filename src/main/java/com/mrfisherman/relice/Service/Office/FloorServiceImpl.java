@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FloorServiceImpl implements FloorService {
@@ -33,6 +34,11 @@ public class FloorServiceImpl implements FloorService {
         } else {
             throw new EntityNotFoundException("No floor with id: " + id);
         }
+    }
+
+    @Override
+    public void updateFloor(FloorDto floor) {
+        Optional.ofNullable(floor).ifPresentOrElse(this::saveFloor, () -> {throw new IllegalArgumentException();});
     }
 
     @Override
